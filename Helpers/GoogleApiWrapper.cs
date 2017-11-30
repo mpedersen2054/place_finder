@@ -13,6 +13,7 @@ namespace PlaceFinder.Helpers
         private readonly IOptions<GoogleApiOptions> GoogleApisConfig;
         private string RootGeocodeUri = "https://maps.googleapis.com/maps/api/geocode/json?";
         private string RootPlacesUri = "https://maps.googleapis.com/maps/api/place/nearbysearch/json?";
+        private string RootPlaceDetialsUri = "https://maps.googleapis.com/maps/api/place/details/json?";
 
         public GoogleApiWrapper(IOptions<GoogleApiOptions> config)
         {
@@ -43,11 +44,13 @@ namespace PlaceFinder.Helpers
             // get places using the geo coords
         }
 
+        // Receive string Address and returns [ lat, lng ]
         public async Task GetCoords(string Place, Action<float[]>Callback)
         {
             using (var Client = new HttpClient())
             {
-                try {
+                try 
+                {
                     Client.BaseAddress = new Uri($"{RootGeocodeUri}address={Place}&key={GeocodingKey}");
                     HttpResponseMessage Response = await Client.GetAsync("");
                     Response.EnsureSuccessStatusCode(); // throw Exception if err
@@ -68,6 +71,7 @@ namespace PlaceFinder.Helpers
             }
         }
 
+        // Recieve [ lat, lng ] & { Place: X, Service: Y, Keyword: Z } and returns { x: {}, x: {} }
         public async Task GetPlaces(float[] LatLng, LookupViewModel Lookup, Action<Dictionary<string,object>>Callback)
         {
             string PlacesUrl = RootPlacesUri;
@@ -94,6 +98,31 @@ namespace PlaceFinder.Helpers
                     Callback(RObj);
                 }
                 catch (HttpRequestException err)
+                {
+                    System.Console.WriteLine("Something we wrong");
+                    System.Console.WriteLine(err);
+                }
+            }
+        }
+
+        public async Task GetPlaceDetails(string PlaceId, Action<Dictionary<string,object>>Callback)
+        {
+            using (var Client = new HttpClient())
+            {
+                try
+                {
+                    Client.BaseAddress = new Uri($"{RootPlaceDetialsUri}placeid={PlaceId}&key={PlacesKey}");
+                    HttpResponseMessage Response = await Client.GetAsync("");
+                    Response.EnsureSuccessStatusCode();
+                    string StringResponse = await Response.Content.ReadAsStringAsync();
+                    Dictionary<string,object> RObj = JsonConvert.DeserializeObject<Dictionary<string,object>>(StringResponse);
+                    
+                    // write error handling here...
+
+                    Callback(RObj);
+
+                }
+                catch(HttpRequestException err)
                 {
                     System.Console.WriteLine("Something we wrong");
                     System.Console.WriteLine(err);

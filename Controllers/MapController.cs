@@ -39,5 +39,16 @@ namespace PlaceFinder.Controllers
             }).Wait();
             return Json(PlacesJson);
         }
+
+        [HttpGet]
+        [Route("map/place/{PlaceId}")]
+        public JsonResult GetPlaceDetials(string PlaceId)
+        {
+            Dictionary<string,object> PlaceDetailsJson = new Dictionary<string,object>();
+            _googleApiWrapper.GetPlaceDetails("ChIJN1t_tDeuEmsRUsoyG83frY4", Results => {
+                PlaceDetailsJson = Results;
+            }).Wait();
+            return Json(PlaceDetailsJson);
+        }
     }
 }
