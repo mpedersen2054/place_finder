@@ -33,11 +33,11 @@ namespace PlaceFinder.Controllers
         [Route("map/lookup")]
         public JsonResult Lookup(LookupViewModel LookupInfo)
         {
+            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             _googleApiWrapper.Lookup(LookupInfo, Results => {
-                System.Console.WriteLine("RESULTS FROM CTRL");
-                System.Console.WriteLine(Results);
+                PlacesJson = Results;
             }).Wait();
-            return Json(new {});
+            return Json(PlacesJson);
         }
     }
 }

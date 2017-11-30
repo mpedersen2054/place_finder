@@ -28,17 +28,18 @@ namespace PlaceFinder.Helpers
         }
 
         // Recieve Place, Service, Name > returns ...
-        public async Task Lookup(LookupViewModel Lookup, Action<string>Callback)
+        public async Task Lookup(LookupViewModel Lookup, Action<Dictionary<string,object>>Callback)
         {
+            Dictionary<string,object> Places = new Dictionary<string,object>();
             // get geo-codes from location
             GetCoords(Lookup.Place, GResults => {
                 System.Console.WriteLine("GOT THE COORDS!!!");
                 GetPlaces(GResults, Lookup, PResults => {
-
+                    Places = PResults;
                 }).Wait();
             }).Wait();
 
-            Callback("hello from lookup");
+            Callback(Places);
             // get places using the geo coords
         }
 
@@ -67,7 +68,7 @@ namespace PlaceFinder.Helpers
             }
         }
 
-        public async Task GetPlaces(float[] LatLng, LookupViewModel Lookup, Action<string>Callback)
+        public async Task GetPlaces(float[] LatLng, LookupViewModel Lookup, Action<Dictionary<string,object>>Callback)
         {
             string PlacesUrl = RootPlacesUri;
             PlacesUrl += $"location={LatLng[0]},{LatLng[1]}";
@@ -82,7 +83,15 @@ namespace PlaceFinder.Helpers
             {
                 try
                 {
-                    Callback("hello");       
+                    Client.BaseAddress = new Uri(PlacesUrl);
+                    HttpResponseMessage Response = await Client.GetAsync("");
+                    Response.EnsureSuccessStatusCode();
+                    string StringResponse = await Response.Content.ReadAsStringAsync();
+                    Dictionary<string,object> RObj = JsonConvert.DeserializeObject<Dictionary<string,object>>(StringResponse);
+
+                    // write error handling here...
+
+                    Callback(RObj);
                 }
                 catch (HttpRequestException err)
                 {
