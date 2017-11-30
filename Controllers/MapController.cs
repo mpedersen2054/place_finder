@@ -4,22 +4,22 @@ using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Http;
 using Microsoft.Extensions.Options;
-using PlaceFinder.Factory;
+using PlaceFinder.Helpers;
 
 namespace PlaceFinder.Controllers
 {
-    public class HomeController : Controller
+    public class MapController : Controller
     {
-        private readonly UserFactory _userFactory;
-        public HomeController(IOptions<MySqlOptions> sqlOpts)
+        private GoogleApiWrapper _googleApiWrapper;
+        public MapController(IOptions<GoogleApiOptions> opts)
         {
-            _userFactory = new UserFactory(sqlOpts);
+            _googleApiWrapper = new GoogleApiWrapper(opts);
         }
-        // GET: /Home/
         [HttpGet]
-        [Route("")]
+        [Route("map")]
         public IActionResult Index()
         {
+            _googleApiWrapper.sayHello();
             return View("Index");
         }
     }
