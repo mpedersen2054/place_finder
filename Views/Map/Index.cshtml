@@ -2,6 +2,8 @@
     ViewData["Title"] = "Map";
 }
 
+@model PlaceFinder.Models.LookupViewModel
+
 <div class="map-page">
 @Html.Partial("_Navigation")
 <div class="container-fluid">
@@ -10,16 +12,16 @@
         <div class="col-xs-12 col-sm-12 col-md-8">
             <div class="search-container">
                 <div class="sc-label">Search for services by place...</div>
-                <form action="#" class="search-form">
+                <form id="lookup-form">
                     <div class="form-row">
                         <div class="col-3 form-group">
-                            <input type="text" class="form-control" placeholder="Tampa...">
+                            <input type="text" class="form-control lf-place" placeholder="Tampa..." value="Tampa">
                         </div>
                         <div class="col-3 form-group">
-                            <input type="text" class="form-control" placeholder="Resturaunt...">
+                            <input type="text" class="form-control lf-service" placeholder="Resturaunt..." value="Resturaunts">
                         </div>
                         <div class="col-3 form-group">
-                            <input type="text" class="form-control" placeholder="Burgers...">
+                            <input type="text" class="form-control lf-keyword" placeholder="Burgers..." value="Burgers">
                         </div>
                         <div class="col-2 form-group">
                             <button type="submit" class="btn btn-primary form-control" placeholder="Food...">
