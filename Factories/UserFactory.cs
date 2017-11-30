@@ -37,10 +37,32 @@ namespace PlaceFinder.Factory
             }
         }
 
-        // create new user
-        public bool CreateUser()
+        // if the user exists return the User
+        // if user doesnt exist, create new User and return new User
+        public User FindOrCreate(string Uname)
         {
-            return true;
+            using (IDbConnection dbConnection = Connection)
+            {
+                string QueryName = @"
+                    SELECT * FROM users
+                    WHERE name = @Name
+                ";
+                dbConnection.Open();
+                var user = dbConnection.Query<User>(QueryName, new { Name = Uname }).FirstOrDefault();
+                if (user != null)
+                {
+                    return user;
+                }
+                else
+                {
+                    string QueryInsert = @"
+                        INSERT INTO users (name, created_at, updated_at) 
+                        VALUES (@Name, NOW(), NOW())
+                    ";                    
+                    dbConnection.Execute(QueryInsert, new { Name = Uname });
+                    return dbConnection.Query<User>(QueryName, new { Name = Uname }).FirstOrDefault();
+                }
+            }
         }
     }
 }

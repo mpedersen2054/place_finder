@@ -19,6 +19,11 @@ namespace PlaceFinder.Controllers
         [Route("map")]
         public IActionResult Index()
         {
+            int? UserId = HttpContext.Session.GetInt32("Id");
+            if (UserId == null)
+            {
+                return RedirectToAction("Index", "Home");
+            }
             return View("Index");
         }
     }
