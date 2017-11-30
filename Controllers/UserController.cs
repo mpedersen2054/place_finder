@@ -18,5 +18,12 @@ namespace PlaceFinder.Controllers
         //     // redirect to /map
         //     return Redirect("Index", "Map");
         // }
+
+        [HttpGet]
+        [Route("users/{Uid}")]
+        public IActionResult ShowUser(int Uid)
+        {
+            return View("Show");
+        }
     }
 }
