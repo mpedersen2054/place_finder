@@ -19,7 +19,6 @@ namespace PlaceFinder.Controllers
         [Route("map")]
         public IActionResult Index()
         {
-            _googleApiWrapper.sayHello();
             return View("Index");
         }
     }

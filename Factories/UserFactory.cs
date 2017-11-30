@@ -11,7 +11,6 @@ namespace PlaceFinder.Factory
     public class UserFactory : IFactory<User>
     {
         private readonly IOptions<MySqlOptions> MySqlConfig;
-        private string connectionString;
 
         public UserFactory(IOptions<MySqlOptions> config)
         {
@@ -30,10 +29,18 @@ namespace PlaceFinder.Factory
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
-                return dbConnection.Query<User>("SELECT * FROM users WHERE id = @Id", new { Id = id }).FirstOrDefault();
+                string Query = @"
+                    SELECT * FROM users
+                    WHERE id = @Id
+                ";
+                return dbConnection.Query<User>(Query, new { Id = id }).FirstOrDefault();
             }
         }
 
         // create new user
+        public bool CreateUser()
+        {
+            return true;
+        }
     }
 }

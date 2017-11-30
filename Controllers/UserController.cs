@@ -9,8 +9,8 @@ namespace PlaceFinder.Controllers
 {
     public class UserController : Controller
     {
-        [HttpPost]
-        [Route("login")]
+        // [HttpPost]
+        // [Route("login")]
         // public IActionResult SubmitLogin()
         // {
         //     // validate data

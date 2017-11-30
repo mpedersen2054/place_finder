@@ -1,6 +1,35 @@
 
+body {
+    font-size: 16px;
+}
+
 /* 
 === BOOTSTRAP OVERRIDES ===
 */
 
 .container-fluid {}
+
+
+/* 
+=== HOME PAGE ===
+*/
+
+.login-container {
+    width: 20rem;
+    margin: 12rem auto;
+}
+
+.login-form-container {
+    padding: 1rem 2rem;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+}
+
+.login-form {
+    margin-top: 0.5rem;
+}
+
+
+/* 
+=== MAP PAGE ===
+*/
