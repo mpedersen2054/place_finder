@@ -34,7 +34,6 @@ namespace PlaceFinder.Helpers
             Dictionary<string,object> Places = new Dictionary<string,object>();
             // get geo-codes from location
             GetCoords(Lookup.Place, GResults => {
-                System.Console.WriteLine("GOT THE COORDS!!!");
                 GetPlaces(GResults, Lookup, PResults => {
                     Places = PResults;
                 }).Wait();
