@@ -31,10 +31,35 @@ namespace PlaceFinder.Controllers
 
         [HttpPost]
         [Route("map/lookup")]
-        public JsonResult Lookup(LookupViewModel LookupInfo)
+        public JsonResult Lookup(LookupViewModel LUVMInfo)
         {
+            // check is valid...
+
+            Dictionary<string,string> Lookup = new Dictionary<string,string>();
+            Lookup.Add("Place", LUVMInfo.Place);
+            Lookup.Add("Service", LUVMInfo.Service);
+            // check if keyword is there
+            Lookup.Add("Keyword", LUVMInfo.Keyword);
+
             Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
-            _googleApiWrapper.Lookup(LookupInfo, Results => {
+
+            _googleApiWrapper.Lookup(Lookup, Results => {
+                PlacesJson = Results;
+            }).Wait();
+            return Json(PlacesJson);
+        }
+
+        [HttpGet]
+        [Route("map/get_new_places/{Lat}/{Lng}/{Place}/{Service}/{Keyword}")]
+        public JsonResult GetNewPlaces(float Lat, float Lng, string Place, string Service, string Keyword)
+        {
+            Dictionary<string,string> Lookup = new Dictionary<string,string>();
+            Lookup.Add("Place", Place);
+            Lookup.Add("Service", Service);
+            // check if keyword is there
+            Lookup.Add("Keyword", Keyword);
+            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
+            _googleApiWrapper.GetPlaces(new []{ Lat, Lng }, Lookup, Results => {
                 PlacesJson = Results;
             }).Wait();
             return Json(PlacesJson);

@@ -29,11 +29,11 @@ namespace PlaceFinder.Helpers
         }
 
         // Recieve Place, Service, Name > returns ...
-        public async Task Lookup(LookupViewModel Lookup, Action<Dictionary<string,object>>Callback)
+        public async Task Lookup(Dictionary<string,string> Lookup, Action<Dictionary<string,object>>Callback)
         {
             Dictionary<string,object> Places = new Dictionary<string,object>();
             // get geo-codes from location
-            GetCoords(Lookup.Place, GResults => {
+            GetCoords(Lookup["Place"], GResults => {
                 GetPlaces(GResults, Lookup, PResults => {
                     // attach the coords onto the places object for the frontend to render the map
                     PResults["Coords"] = GResults;
@@ -73,13 +73,13 @@ namespace PlaceFinder.Helpers
         }
 
         // Recieve [ lat, lng ] & { Place: X, Service: Y, Keyword: Z } and returns { x: {}, x: {} }
-        public async Task GetPlaces(float[] LatLng, LookupViewModel Lookup, Action<Dictionary<string,object>>Callback)
+        public async Task GetPlaces(float[] LatLng, Dictionary<string,string> Lookup, Action<Dictionary<string,object>>Callback)
         {
             string PlacesUrl = RootPlacesUri;
             PlacesUrl += $"location={LatLng[0]},{LatLng[1]}";
-            PlacesUrl += $"&radius=1000";
-            PlacesUrl += $"&type={Lookup.Service}";
-            PlacesUrl += $"&keyword={Lookup.Keyword}";
+            PlacesUrl += $"&radius=350";
+            PlacesUrl += $"&type={Lookup["Service"]}";
+            PlacesUrl += $"&keyword={Lookup["Keyword"]}";
             PlacesUrl += $"&key={PlacesKey}";
             
             System.Console.WriteLine(PlacesUrl);

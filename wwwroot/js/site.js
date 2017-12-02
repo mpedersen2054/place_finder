@@ -7,19 +7,17 @@ function lookupFormSubmit(e) {
     e.preventDefault()
     let $placeVal = $('.lf-place').val(),
         $serviceVal = $('.lf-service').val(),
-        $keywordVal = $('.lf-keyword').val()
+        $keywordVal = $('.lf-keyword').val(),
+        lookupObj = { Place: $placeVal, Service: $serviceVal, Keyword: $keywordVal }
 
-    console.log('Looking up...')
     // do some validations here...
+
     $.post(
         '/map/lookup',
-        { Place: $placeVal, Service: $serviceVal, Keyword: $keywordVal }
+        lookupObj
     ).then((data) => {
-        
-        var map = new Map(data.Coords)
+        var map = new Map(data.Coords, lookupObj, data.results)
         map.init()
-        map.renderPlaces(data.results)
-
     }).fail((xhr, status, message) => {
         console.log('there was an error!', status, message)
     })
