@@ -1,0 +1,6 @@
+
+const TMPL = {
+    mapMarker: function() {
+
+    }
+}

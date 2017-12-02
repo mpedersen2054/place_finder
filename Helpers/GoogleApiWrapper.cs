@@ -35,6 +35,8 @@ namespace PlaceFinder.Helpers
             // get geo-codes from location
             GetCoords(Lookup.Place, GResults => {
                 GetPlaces(GResults, Lookup, PResults => {
+                    // attach the coords onto the places object for the frontend to render the map
+                    PResults["Coords"] = GResults;
                     Places = PResults;
                 }).Wait();
             }).Wait();
@@ -75,7 +77,7 @@ namespace PlaceFinder.Helpers
         {
             string PlacesUrl = RootPlacesUri;
             PlacesUrl += $"location={LatLng[0]},{LatLng[1]}";
-            PlacesUrl += $"&radius=500";
+            PlacesUrl += $"&radius=1000";
             PlacesUrl += $"&type={Lookup.Service}";
             PlacesUrl += $"&keyword={Lookup.Keyword}";
             PlacesUrl += $"&key={PlacesKey}";
