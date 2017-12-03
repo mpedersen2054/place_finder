@@ -70,7 +70,7 @@ namespace PlaceFinder.Controllers
         public JsonResult GetPlaceDetials(string PlaceId)
         {
             Dictionary<string,object> PlaceDetailsJson = new Dictionary<string,object>();
-            _googleApiWrapper.GetPlaceDetails("ChIJN1t_tDeuEmsRUsoyG83frY4", Results => {
+            _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 PlaceDetailsJson = Results;
             }).Wait();
             return Json(PlaceDetailsJson);

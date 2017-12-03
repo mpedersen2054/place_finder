@@ -9,6 +9,7 @@ const Map = (function(coords, lookupObj, places) {
     this.activeMap = null
 
     this.$mapContainer = $('.map-container')
+    this.$popupViewmore = $('.p-viewmore')
 
     this.init = function() {
         console.log('initing!')
@@ -33,6 +34,8 @@ const Map = (function(coords, lookupObj, places) {
         this.activeMap.on('moveend', function() {
             self.requestMorePlace(this.getCenter())
         })
+
+        this.$mapContainer.on('click', '.p-viewmore', this.showPlaceDetails)
     }
 
     this.requestMorePlace = function(center) {
@@ -69,5 +72,23 @@ const Map = (function(coords, lookupObj, places) {
             let marker = L.marker([lat, lng]).addTo(self.activeMap)
             marker.bindPopup(popupElem)
         })
+    }
+
+    this.showPlaceDetails = function(e) {
+        e.preventDefault()
+        let $this = $(this),
+            $popup = $this.parent('.popup'),
+            placeId = $popup.data('placeid')
+
+        // show spinner here
+
+        $.get(`/map/place/${placeId}`)
+            .then((data) => {
+                let template = TMPL.placeDetails(data.result)
+                console.log(template)
+            })
+            .fail((xhr, status, err) => {
+                console.log('there was an err getting place details!', err)
+            })
     }
 })
