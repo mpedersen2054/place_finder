@@ -7,14 +7,19 @@ namespace PlaceFinder.Models
 {
     public class PlaceResults : BaseEntity
     {
-        public int _id { get; set; }
         public string place_id { get; set; }
         public string name { get; set; }
         public string formatted_address { get; set; }
         public string formatted_phone_number { get; set; }
-        public Dictionary<string,object> opening_hours { get; set; }
+        public PlaceResultsOpeningHours opening_hours { get; set; }
         public string[] types { get; set; }
         public PlaceResultsPhotos[] photos { get; set; }
+    }
+
+    public class PlaceResultsOpeningHours : BaseEntity
+    {
+        public bool is_open { get; set; }
+        public string[] weekday_text { get; set; }
     }
 
     public class PlaceResultsPhotos : BaseEntity
