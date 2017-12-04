@@ -84,11 +84,31 @@ namespace PlaceFinder.Factory
                     {
                         Types.Add(new { Text = type, PlacesId = _Place._id });
                     }
-                    
                     dbConnection.Execute(InsertTypesQ, Types);
                     
                     // add open_hours
+                    string InsertHoursQ = @"
+                        INSERT INTO hours (order_pos, text, places__id, created_at, updated_at)
+                        VALUES (@OrderPos, @Text, @PlacesId, NOW(), NOW())
+                    ";
+                    List<object> Hours = new List<object>();
+                    for (int i = 0; i < place.opening_hours.weekday_text.Length; i++)
+                    {
+                        Hours.Add(new { OrderPos = i, Text = place.opening_hours.weekday_text[i], PlacesId = _Place._id });
+                    }
+                    dbConnection.Execute(InsertHoursQ, Hours);
+
                     // add photos
+                    string InsertPhotosQ = @"
+                        INSERT INTO photos (reference, places__id, created_at, updated_at)
+                        VALUES (@Reference, @PlacesId, NOW(), NOW())
+                    ";
+                    List<object> Photos = new List<object>();
+                    foreach (var photo in place.photos)
+                    {
+                        Photos.Add(new { Reference = photo.photo_reference, PlacesId = _Place._id });
+                    }
+                    dbConnection.Execute(InsertPhotosQ, Photos);
                 }
                 // if place doesnt exist add the place into the DB
             }
