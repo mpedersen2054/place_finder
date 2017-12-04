@@ -24,7 +24,7 @@ namespace PlaceFinder.Controllers
         [Route("place/{PlaceId}")]
         public JsonResult GetPlaceDetials(string PlaceId)
         {
-            Place _Place = new Place();
+            PlaceResults _Place = new PlaceResults();
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 _Place = Results;
             }).Wait();
@@ -41,7 +41,7 @@ namespace PlaceFinder.Controllers
         {
             System.Console.WriteLine($"Adding place {PlaceId}");
             int? UserId = HttpContext.Session.GetInt32("Id");
-            Place _Place = new Place();
+            PlaceResults _Place = new PlaceResults();
 
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 _Place = Results;

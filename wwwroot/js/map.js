@@ -89,7 +89,7 @@ const Map = (function(coords, lookupObj, places) {
         // request the specific places details using the place_id
         $.get(`/place/${placeId}`)
             .then((data) => {
-                console.log('place details!', data)
+                // console.log('place details!', data)
                 let template = TMPL.placeDetails(data)
                 $infoCol.html(template)
             })

@@ -106,7 +106,7 @@ namespace PlaceFinder.Helpers
             }
         }
 
-        public async Task GetPlaceDetails(string PlaceId, Action<Place>Callback)
+        public async Task GetPlaceDetails(string PlaceId, Action<PlaceResults>Callback)
         {
             using (var Client = new HttpClient())
             {
@@ -117,12 +117,11 @@ namespace PlaceFinder.Helpers
                     Response.EnsureSuccessStatusCode();
                     string StringResponse = await Response.Content.ReadAsStringAsync();
                     Dictionary<string,object> RObj = JsonConvert.DeserializeObject<Dictionary<string,object>>(StringResponse);
-                    // type cast RObj.result into Place object
-                    Place _Place = JsonConvert.DeserializeObject<Place>(RObj["result"].ToString());
+                    PlaceResults Place = JsonConvert.DeserializeObject<PlaceResults>(RObj["result"].ToString());
 
                     // write error handling here...
 
-                    Callback(_Place);
+                    Callback(Place);
 
                 }
                 catch(HttpRequestException err)

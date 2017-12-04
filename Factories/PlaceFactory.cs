@@ -23,30 +23,33 @@ namespace PlaceFinder.Factory
             }
         }
 
-        public void CreatePlace(int userId, Place place)
+        public void CreatePlace(int userId, PlaceResults place)
         {
             
             using (IDbConnection dbConnection = Connection)
             {
-                System.Console.WriteLine($"creating {place.name} for user: {userId}");
+                System.Console.WriteLine(place);
+                System.Console.WriteLine(place.name);
+                System.Console.WriteLine(place.place_id);
+                // System.Console.WriteLine($"creating {place["name"]} for user: {userId}");
                 dbConnection.Open();
                 // check if the place already exists
                 var ExistsQ = @"
                     SELECT * FROM places
                     WHERE place_id = @PlaceId
                 ";
-                var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
+                // var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place["place_id"] }).FirstOrDefault();
 
-                if (Exists != null)
-                {
-                    System.Console.WriteLine("DO SOMETHING IF IT EXISTS");
-                }
-                else
-                {
-                    string InsertQ = @"
-                        
-                    ";
-                }
+                // if (Exists != null)
+                // {
+                //     System.Console.WriteLine("DO SOMETHING IF IT EXISTS");
+                // }
+                // else
+                // {
+                //     string InsertQ = @"
+
+                //     ";
+                // }
                 // if place doesnt exist add the place into the DB
             }
         }
