@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
 
 namespace PlaceFinder.Models
@@ -9,5 +10,7 @@ namespace PlaceFinder.Models
         [Required]
         [MinLength(3)]
         public string name { get; set; }
+
+        public List<Place> places { get; set; }
     }
 }
