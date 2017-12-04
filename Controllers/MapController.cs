@@ -26,6 +26,7 @@ namespace PlaceFinder.Controllers
             {
                 return RedirectToAction("Index", "User");
             }
+            ViewBag.userId = UserId;
             return View("Index");
         }
 

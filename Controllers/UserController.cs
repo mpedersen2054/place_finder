@@ -44,9 +44,15 @@ namespace PlaceFinder.Controllers
         }
 
         [HttpGet]
-        [Route("users/{Uid}")]
-        public IActionResult ShowUser(int Uid)
+        [Route("users/{userId}")]
+        public IActionResult ShowUser(int userId)
         {
+            User _User = _userFactory.FindById(userId);
+            System.Console.WriteLine(_User);
+            System.Console.WriteLine(_User.name);
+            System.Console.WriteLine(_User.places);
+            System.Console.WriteLine(_User.places.Count);
+            ViewBag.user = _User;
             return View("Show");
         }
     }

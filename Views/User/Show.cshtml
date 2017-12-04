@@ -2,6 +2,9 @@
     ViewData["Title"] = "Your Places";
 }
 
+@using PlaceFinder.Models
+@model PlaceFinder.Models.User
+
 @Html.Partial("_Navigation")
 
 <div class="user-places-page">
@@ -9,8 +12,15 @@
 <div class="container">
     <div class="row">
         <div class="col-md-12">
-            <h2>Your Places</h2>
+            <h2><span>@ViewBag.user.name</span>s places</h2>
             <hr>
+
+            <div class="places">
+                @foreach (var place in @ViewBag.user.places)
+                {
+                    @Html.Partial("_UserPlace", (Place)@place)
+                }
+            </div>
         </div>
     </div>
 </div>

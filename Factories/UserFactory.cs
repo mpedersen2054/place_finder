@@ -24,22 +24,29 @@ namespace PlaceFinder.Factory
         }
 
         // find by ID
-        public User FindById(int id)
+        public User FindById(int userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
+                // find user & all places
                 string Query = @"
-                    SELECT * FROM users
-                    WHERE id = @Id
+                    SELECT * FROM users WHERE _id = @UserId;
+                    SELECT * FROM places WHERE users__id = @UserId;
                 ";
-                return dbConnection.Query<User>(Query, new { Id = id }).FirstOrDefault();
+
+                using (var multi = dbConnection.QueryMultiple(Query, new { UserId = userId }))
+                {
+                    var _User = multi.Read<User>().Single();
+                    _User.places = multi.Read<Place>().ToList();
+                    return _User;
+                }
             }
         }
 
         // if the user exists return the User
         // if user doesnt exist, create new User and return new User
-        public User FindOrCreate(string Uname)
+        public User FindOrCreate(string uName)
         {
             using (IDbConnection dbConnection = Connection)
             {
@@ -48,7 +55,7 @@ namespace PlaceFinder.Factory
                     WHERE name = @Name
                 ";
                 dbConnection.Open();
-                var user = dbConnection.Query<User>(QueryName, new { Name = Uname }).FirstOrDefault();
+                var user = dbConnection.Query<User>(QueryName, new { Name = uName }).FirstOrDefault();
                 if (user != null)
                 {
                     return user;
@@ -59,8 +66,8 @@ namespace PlaceFinder.Factory
                         INSERT INTO users (name, created_at, updated_at) 
                         VALUES (@Name, NOW(), NOW())
                     ";                    
-                    dbConnection.Execute(QueryInsert, new { Name = Uname });
-                    return dbConnection.Query<User>(QueryName, new { Name = Uname }).FirstOrDefault();
+                    dbConnection.Execute(QueryInsert, new { Name = uName });
+                    return dbConnection.Query<User>(QueryName, new { Name = uName }).FirstOrDefault();
                 }
             }
         }

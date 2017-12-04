@@ -28,16 +28,8 @@ namespace PlaceFinder.Factory
             
             using (IDbConnection dbConnection = Connection)
             {
-                // System.Console.WriteLine(place);
-                // System.Console.WriteLine(place.name);
-                // System.Console.WriteLine(place.place_id);
-                // System.Console.WriteLine(place.opening_hours);
-                // System.Console.WriteLine(place.opening_hours.is_open);
-                // System.Console.WriteLine(place.opening_hours.weekday_text);
-                // System.Console.WriteLine(place.types);
-                // System.Console.WriteLine(place.photos);
-
                 dbConnection.Open();
+
                 // check if the place already exists
                 var ExistsQ = @"
                     SELECT * FROM places
@@ -45,13 +37,14 @@ namespace PlaceFinder.Factory
                 ";
                 var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
 
-                if (Exists != null)
+                if (Exists != null && Exists._id != userId)
                 {
                     System.Console.WriteLine("DO SOMETHING IF IT EXISTS");
                     System.Console.WriteLine(Exists.place_id);
                 }
                 else
                 {
+                    // insert new place if it doesnt exist for given user
                     int isOpen = place.opening_hours.is_open ? 1 : 0;
                     string InsertPlaceQ = @"
                         INSERT INTO places (place_id, formatted_address, formatted_phone_number, name, is_open, users__id, created_at, updated_at)
@@ -66,13 +59,8 @@ namespace PlaceFinder.Factory
                         UsersId = userId
                     });
 
-                    // get the newly added place
+                    // get the newly added place to insert into users__id in following insert statements
                     var _Place = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
-
-                    System.Console.WriteLine("Heres the place");
-                    System.Console.WriteLine(_Place);
-                    System.Console.WriteLine(_Place.name);
-                    System.Console.WriteLine(_Place.place_id);
 
                     // add types
                     string InsertTypesQ = @"
@@ -110,7 +98,6 @@ namespace PlaceFinder.Factory
                     }
                     dbConnection.Execute(InsertPhotosQ, Photos);
                 }
-                // if place doesnt exist add the place into the DB
             }
         }
     }
