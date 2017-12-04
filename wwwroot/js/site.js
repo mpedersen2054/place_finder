@@ -16,6 +16,7 @@ function lookupFormSubmit(e) {
         '/map/lookup',
         lookupObj
     ).then((data) => {
+        console.log('data from /map/lookup!!', data)
         var map = new Map(data.Coords, lookupObj, data.results)
         map.init()
     }).fail((xhr, status, message) => {

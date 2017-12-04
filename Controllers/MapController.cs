@@ -64,19 +64,5 @@ namespace PlaceFinder.Controllers
             }).Wait();
             return Json(PlacesJson);
         }
-
-        [HttpGet]
-        [Route("map/place/{PlaceId}")]
-        public JsonResult GetPlaceDetials(string PlaceId)
-        {
-            Dictionary<string,object> PlaceDetailsJson = new Dictionary<string,object>();
-            _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
-                PlaceDetailsJson = Results;
-            }).Wait();
-
-            // get users added places. Check if the place is already in user.places
-
-            return Json(PlaceDetailsJson);
-        }
     }
 }

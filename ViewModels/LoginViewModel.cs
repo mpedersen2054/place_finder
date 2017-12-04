@@ -8,6 +8,6 @@ namespace PlaceFinder.Models
         [Required]
         [MinLength(3, ErrorMessage = "Name must be > 3 characters")]
         [RegularExpression(@"^[a-zA-Z]+$", ErrorMessage = "Name can only contain letters")]
-        public string Name { get; set; }
+        public string name { get; set; }
     }
 }

@@ -21,14 +21,15 @@ namespace PlaceFinder.Controllers
         [Route("place/{PlaceId}")]
         public JsonResult GetPlaceDetials(string PlaceId)
         {
-            Dictionary<string,object> PlaceDetailsJson = new Dictionary<string,object>();
+            Place _Place = new Place();
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
-                PlaceDetailsJson = Results;
+                _Place = Results;
             }).Wait();
 
+            System.Console.WriteLine(_Place);
             // get users added places. Check if the place is already in user.places
 
-            return Json(PlaceDetailsJson);
+            return Json(_Place);
         }
 
         [HttpPost]

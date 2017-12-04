@@ -33,9 +33,9 @@ namespace PlaceFinder.Controllers
             // validate data
             if (ModelState.IsValid)
             {
-                User Person = _userFactory.FindOrCreate(user.Name);
-                HttpContext.Session.SetInt32("Id", Person.Id);
-                HttpContext.Session.SetString("Name", Person.Name);
+                User Person = _userFactory.FindOrCreate(user.name);
+                HttpContext.Session.SetInt32("Id", Person._id);
+                HttpContext.Session.SetString("Name", Person.name);
                 return RedirectToAction("Index", "Map");
             }
             

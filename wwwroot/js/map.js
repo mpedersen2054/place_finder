@@ -87,9 +87,10 @@ const Map = (function(coords, lookupObj, places) {
         $infoCol.html('<div class="spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>')
 
         // request the specific places details using the place_id
-        $.get(`/map/place/${placeId}`)
+        $.get(`/place/${placeId}`)
             .then((data) => {
-                let template = TMPL.placeDetails(data.result)
+                console.log('place details!', data)
+                let template = TMPL.placeDetails(data)
                 $infoCol.html(template)
             })
             .fail((xhr, status, err) => {
@@ -102,5 +103,12 @@ const Map = (function(coords, lookupObj, places) {
         let $this = $(this),
             placeId = $this.data('placeid')
         console.log('adding place!!!', placeId)
+        $.post(`/place/${placeId}/add`, { PlaceId: placeId })
+            .done((data) => {
+                console.log('added place!', data)
+            })
+            .fail((xhr, status, err) => {
+                console.log('there was an err adding new place!', err)
+            })
     }
 })
