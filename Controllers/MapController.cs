@@ -73,6 +73,9 @@ namespace PlaceFinder.Controllers
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 PlaceDetailsJson = Results;
             }).Wait();
+
+            // get users added places. Check if the place is already in user.places
+
             return Json(PlaceDetailsJson);
         }
     }

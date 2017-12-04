@@ -58,10 +58,6 @@ ul {
     border-bottom: 1px solid #ccc;
 }
 
-.search-container {
-    
-}
-
 .sc-label {
     margin: 0.5rem;
 }
@@ -73,7 +69,6 @@ ul {
 }
 
 .info-col {
-    /* font-size: 14px; */
     padding: auto 1rem;
 }
 
@@ -91,10 +86,6 @@ ul {
 #mapid {
     height: 36rem;
 }
-
-.ic-r-1 {}
-.ic-r-2 {}
-.ic-r-3 {}
 
 .ic-name {
     margin-bottom: 0;
