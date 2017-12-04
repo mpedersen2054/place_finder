@@ -11,6 +11,33 @@ const TMPL = {
     },
 
     placeDetails: function(place) {
+        console.log(place)
+        // handle adding multiple types
+        let types = ''
+        for (var type of place.types) {
+            types += `<span class="badge badge-primary type">${type}</span>` 
+        }
+        // handle adding the array of hours
+        let hours = ''
+        let isOpen
+        // check weather place has opening_hours, if its 24/7 it wont
+        if (place.opening_hours ) {
+            // put all hours into single string
+            for (var hour of place.opening_hours.weekday_text) {
+                hours += `<li class="ic-day">${hour}</li>`
+            }
+            // handle weather place is open / not open
+            if (place.opening_hours.open_now) {
+                isOpen = `<div class="ic-open-status open">Is currently open.</div>`
+            } else {
+                isOpen = `<div class="ic-open-status closed">Is currently closed.</div>`
+            }
+        } else {
+            // place is open 24/7
+            hours += `<div>No hours specified...</div>`
+            isOpen = ''
+        }
+        
         return `
         <div class="row ic-r-1">
             <div class="col-md-12">
@@ -19,20 +46,17 @@ const TMPL = {
         </div>
         <div class="row ic-r-2">
             <div class="col-md-12 ic-addr">
-                <div>42/48 The Promenade, Sydney NSW 2000, Australia</div>
+                <div>${place.formatted_address}</div>
             </div>
             <div class="col-md-12 ic-phone">
-                <div>Phone : 224 563 7611</div>
+                <div>Phone : ${place.formatted_phone_number}</div>
             </div>
         </div>
         <hr>
         <div class="row ic-r-3">
             <div class="col-md-12">
-                <div class="badges">
-                    <span class="badge badge-primary">restaurant</span>
-                    <span class="badge badge-primary">food</span>
-                    <span class="badge badge-primary">point_of_interest</span>
-                    <span class="badge badge-primary">establishment</span>
+                <div class="badges types">
+                    ${types}
                 </div>
             </div>
         </div>
@@ -41,21 +65,15 @@ const TMPL = {
             <div class="col-md-12">
                 <b>Hours</b>
                 <ul class="ic-hours">
-                    <li class="ic-day">Monday: 11:30 AM – 10:00 PM</li>
-                    <li class="ic-day">Tuesday: 11:30 AM – 10:00 PM</li>
-                    <li class="ic-day">Wednesday: 11:30 AM – 10:00 PM</li>
-                    <li class="ic-day">Thursday: 11:30 AM – 10:00 PM</li>
-                    <li class="ic-day">Friday: 11:30 AM – 12:00 AM</li>
-                    <li class="ic-day">Saturday: 12:00 AM – 11:00 PM</li>
-                    <li class="ic-day">Sunday: 9:00 AM – 10:00 PM</li>
+                    ${hours}
                 </ul>
-                <div class="ic-open-status open">Is currently open</div>
+                ${isOpen}
             </div>
         </div>
         <hr>
         <div class="row ic-r-5">
             <div class="col-md-12">
-                <button class="btn btn-primary" outline>Add Place</button>
+                <button data-placeid=${place.place_id} class="btn btn-primary add-place-btn">Add Place</button>
             </div>
         </div>
         `

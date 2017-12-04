@@ -9,7 +9,7 @@ const Map = (function(coords, lookupObj, places) {
     this.activeMap = null
 
     this.$mapContainer = $('.map-container')
-    this.$popupViewmore = $('.p-viewmore')
+    this.$infoCol = $('.info-col')
 
     this.init = function() {
         console.log('initing!')
@@ -36,6 +36,7 @@ const Map = (function(coords, lookupObj, places) {
         })
 
         this.$mapContainer.on('click', '.p-viewmore', this.showPlaceDetails)
+        this.$infoCol.on('click', '.add-place-btn', this.addPlace)
     }
 
     this.requestMorePlace = function(center) {
@@ -77,18 +78,29 @@ const Map = (function(coords, lookupObj, places) {
     this.showPlaceDetails = function(e) {
         e.preventDefault()
         let $this = $(this),
+            $infoCol = $('.info-col'),
             $popup = $this.parent('.popup'),
             placeId = $popup.data('placeid')
+            
 
-        // show spinner here
+        // show spinner while waiting for response
+        $infoCol.html('<div class="spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>')
 
+        // request the specific places details using the place_id
         $.get(`/map/place/${placeId}`)
             .then((data) => {
                 let template = TMPL.placeDetails(data.result)
-                console.log(template)
+                $infoCol.html(template)
             })
             .fail((xhr, status, err) => {
                 console.log('there was an err getting place details!', err)
             })
+    }
+
+    this.addPlace = function(e) {
+        e.preventDefault()
+        let $this = $(this),
+            placeId = $this.data('placeid')
+        console.log('adding place!!!', placeId)
     }
 })

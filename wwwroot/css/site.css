@@ -77,6 +77,12 @@ ul {
     padding: auto 1rem;
 }
 
+.info-col .spinner {
+    text-align: center;
+    color: #aaa;
+    margin-top: 15rem;
+}
+
 .info-col hr {
     margin-top: 0.5rem;
     margin-bottom: 0.5rem;
@@ -94,10 +100,17 @@ ul {
     margin-bottom: 0;
 }
 
+.types .type {
+    margin-right: 0.5rem;
+}
+
 .ic-addr div {
     display: block;
 }
 
 .ic-open-status.open {
     color: green;
+}
+.ic-open-status.closed {
+    color: red;
 }
