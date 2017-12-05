@@ -13,7 +13,7 @@ const Map = (function(coords, lookupObj, places) {
 
     this.init = function() {
         console.log('initing!')
-        console.log(coords, lookupObj)
+        console.log(coords, lookupObj, places)
         // resets the view for each new map init'ed
         this.$mapContainer.html('<div id="mapid"></div>')
         this.activeMap = L.map('mapid').setView([this.lat, this.lng], this.zoom)

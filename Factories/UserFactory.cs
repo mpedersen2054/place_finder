@@ -68,24 +68,24 @@ namespace PlaceFinder.Factory
         {
             using (IDbConnection dbConnection = Connection)
             {
-                string QueryName = @"
+                string UserQ = @"
                     SELECT * FROM users
                     WHERE name = @Name
                 ";
                 dbConnection.Open();
-                var user = dbConnection.Query<User>(QueryName, new { Name = uName }).FirstOrDefault();
+                var user = dbConnection.Query<User>(UserQ, new { Name = uName }).FirstOrDefault();
                 if (user != null)
                 {
                     return user;
                 }
                 else
                 {
-                    string QueryInsert = @"
+                    string InsertQ = @"
                         INSERT INTO users (name, created_at, updated_at) 
                         VALUES (@Name, NOW(), NOW())
                     ";                    
-                    dbConnection.Execute(QueryInsert, new { Name = uName });
-                    return dbConnection.Query<User>(QueryName, new { Name = uName }).FirstOrDefault();
+                    dbConnection.Execute(InsertQ, new { Name = uName });
+                    return dbConnection.Query<User>(UserQ, new { Name = uName }).FirstOrDefault();
                 }
             }
         }

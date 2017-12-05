@@ -28,23 +28,6 @@ namespace PlaceFinder.Helpers
             get { return GoogleApisConfig.Value.GeocodingKey; }
         }
 
-        // Recieve Place, Service, Name > returns ...
-        public async Task Lookup(Dictionary<string,string> Lookup, Action<Dictionary<string,object>>Callback)
-        {
-            Dictionary<string,object> Places = new Dictionary<string,object>();
-            // get geo-codes from location
-            GetCoords(Lookup["Place"], GResults => {
-                GetPlaces(GResults, Lookup, PResults => {
-                    // attach the coords onto the places object for the frontend to render the map
-                    PResults["Coords"] = GResults;
-                    Places = PResults;
-                }).Wait();
-            }).Wait();
-
-            Callback(Places);
-            // get places using the geo coords
-        }
-
         // Receive string Address and returns [ lat, lng ]
         public async Task GetCoords(string Place, Action<float[]>Callback)
         {
@@ -81,8 +64,6 @@ namespace PlaceFinder.Helpers
             PlacesUrl += $"&type={Lookup["Service"]}";
             PlacesUrl += $"&keyword={Lookup["Keyword"]}";
             PlacesUrl += $"&key={PlacesKey}";
-            
-            System.Console.WriteLine(PlacesUrl);
 
             using (var Client = new HttpClient())
             {

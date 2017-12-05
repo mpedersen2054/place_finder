@@ -26,6 +26,7 @@ namespace PlaceFinder.Controllers
             {
                 return RedirectToAction("Home", "User");
             }
+            
             ViewBag.userId = UserId;
             return View("Index");
         }
@@ -44,9 +45,17 @@ namespace PlaceFinder.Controllers
 
             Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
 
-            _googleApiWrapper.Lookup(Lookup, Results => {
-                PlacesJson = Results;
+            // query for coords, then using the coords query for places
+            _googleApiWrapper.GetCoords(Lookup["Place"], GResults => {
+                _googleApiWrapper.GetPlaces(GResults, Lookup, PResults => {
+                    PResults["Coords"] = GResults;
+                    PlacesJson = PResults;
+                }).Wait();
             }).Wait();
+
+            // _googleApiWrapper.Lookup(Lookup, Results => {
+            //     PlacesJson = Results;
+            // }).Wait();
             return Json(PlacesJson);
         }
 
@@ -59,10 +68,12 @@ namespace PlaceFinder.Controllers
             Lookup.Add("Service", Service);
             // check if keyword is there
             Lookup.Add("Keyword", Keyword);
+
             Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             _googleApiWrapper.GetPlaces(new []{ Lat, Lng }, Lookup, Results => {
                 PlacesJson = Results;
             }).Wait();
+
             return Json(PlacesJson);
         }
     }
