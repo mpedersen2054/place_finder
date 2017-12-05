@@ -60,7 +60,11 @@ namespace PlaceFinder.Controllers
             {
                 return RedirectToAction("Home");
             }
+
+            var _Users = _userFactory.GetAllUsers();
+
             ViewBag.userId = UserId;
+            ViewBag.users = _Users;
             
             return View("Index");
         }

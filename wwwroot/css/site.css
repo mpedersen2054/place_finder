@@ -105,3 +105,35 @@ ul {
 .ic-open-status.closed {
     color: red;
 }
+
+
+/* 
+=== USERS LIST PAGE ===
+*/
+
+.user-list-page,
+.user-page {
+    padding-top: 1rem;
+}
+
+.page-head {
+    border-bottom: 1px solid #ccc;
+    margin-bottom: 1rem;
+}
+
+.page-head h2 {
+    font-size: 26px;
+    font-weight: 400;
+    margin-bottom: 0;
+    color: #444;
+}
+
+.users-table {
+    margin-top: 2rem;
+    border-top: 0;
+}
+
+
+/* 
+=== SINGLE USER PAGE ===
+*/

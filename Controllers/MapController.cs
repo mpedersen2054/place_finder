@@ -35,15 +35,13 @@ namespace PlaceFinder.Controllers
         [Route("map/lookup")]
         public JsonResult Lookup(LookupViewModel LUVMInfo)
         {
-            // check is valid...
-
+            // check is valid here...
+            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             Dictionary<string,string> Lookup = new Dictionary<string,string>();
             Lookup.Add("Place", LUVMInfo.Place);
             Lookup.Add("Service", LUVMInfo.Service);
             // check if keyword is there
             Lookup.Add("Keyword", LUVMInfo.Keyword);
-
-            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
 
             // query for coords, then using the coords query for places
             _googleApiWrapper.GetCoords(Lookup["Place"], GResults => {
@@ -53,9 +51,6 @@ namespace PlaceFinder.Controllers
                 }).Wait();
             }).Wait();
 
-            // _googleApiWrapper.Lookup(Lookup, Results => {
-            //     PlacesJson = Results;
-            // }).Wait();
             return Json(PlacesJson);
         }
 
@@ -63,13 +58,13 @@ namespace PlaceFinder.Controllers
         [Route("map/get_new_places/{Lat}/{Lng}/{Place}/{Service}/{Keyword}")]
         public JsonResult GetNewPlaces(float Lat, float Lng, string Place, string Service, string Keyword)
         {
+            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             Dictionary<string,string> Lookup = new Dictionary<string,string>();
             Lookup.Add("Place", Place);
             Lookup.Add("Service", Service);
             // check if keyword is there
             Lookup.Add("Keyword", Keyword);
 
-            Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             _googleApiWrapper.GetPlaces(new []{ Lat, Lng }, Lookup, Results => {
                 PlacesJson = Results;
             }).Wait();

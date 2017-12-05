@@ -89,5 +89,26 @@ namespace PlaceFinder.Factory
                 }
             }
         }
+
+        public ICollection<User> GetAllUsers()
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string UsersQ = @"
+                    SELECT _id, name FROM users
+                ";
+                string PlacesCountQ = @"
+                    SELECT _id FROM places
+                    WHERE users__id = @UserId
+                ";
+
+                var _Users = dbConnection.Query<User>(UsersQ).ToList();
+                _Users.ForEach(u => {
+                    var _PCount = dbConnection.Query<Place>(PlacesCountQ, new { UserId = u._id }).Count();
+                    u.places_count = _PCount;
+                });
+                return _Users;
+            }
+        }
     }
 }

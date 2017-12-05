@@ -21,5 +21,6 @@ namespace PlaceFinder.Models
         public DateTime updated_at { get; set; }
 
         public ICollection<Place> places { get; set; }
+        public int places_count { get; set; }
     }
 }
