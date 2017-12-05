@@ -84,5 +84,14 @@ namespace PlaceFinder.Controllers
             
             return View("Show");
         }
+
+        [HttpPost]
+        [Route("users/add_review")]
+        public JsonResult AddReview(int PlaceId, string Review)
+        {
+            int? UserId = HttpContext.Session.GetInt32("Id");
+            _userFactory.AddReview((int)UserId, PlaceId, Review);
+            return Json(new { success = true });
+        }
     }
 }

@@ -40,6 +40,11 @@ namespace PlaceFinder.Factory
                     SELECT * FROM types WHERE places__id = @PlaceId;
                     SELECT * FROM hours WHERE places__id = @PlaceId;
                     SELECT * FROM photos WHERE places__id = @PlaceId;
+
+                    SELECT r.*, u.name 
+                    FROM reviews r JOIN users u
+                    ON r.users__id = u._id
+                    AND r.places__id = @PlaceId;
                 ";
 
                 dbConnection.Open();
@@ -49,11 +54,12 @@ namespace PlaceFinder.Factory
 
                 // iterate over each place and query for types, hours, & photos
                 _Places.ForEach(p => {
-                    using (var multi = dbConnection.QueryMultiple(PlaceChildrenQ, new { PlaceId = p._id }))
+                    using (var multi = dbConnection.QueryMultiple(PlaceChildrenQ, new { PlaceId = p._id, UserId = userId }))
                     {
                         p.types = multi.Read<PlaceTypes>().ToList();
                         p.hours = multi.Read<PlaceHours>().ToList();
                         p.photos = multi.Read<PlacePhotos>().ToList();
+                        p.reviews = multi.Read<Review>().ToList();
                     }
                 });
 
@@ -108,6 +114,26 @@ namespace PlaceFinder.Factory
                     u.places_count = _PCount;
                 });
                 return _Users;
+            }
+        }
+
+        public void AddReview(int UserId, int PlaceId, string Review)
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string InsertQ = @"
+                    INSERT INTO reviews (text, users__id, places__id, created_at, updated_at)
+                    VALUES (@Text, @UserId, @PlaceId, NOW(), NOW())
+                ";
+                string ReviewQ = @"
+                    SELECT r.*, u.name
+                    FROM reviews r JOIN users u
+                    ON r.users__id = u._id
+                    WHERE r.text = @Text
+                ";
+                dbConnection.Open();
+                dbConnection.Execute(InsertQ, new { Text = Review, UserId = UserId, PlaceId = PlaceId });
+                // return dbConnection.Query<User>(ReviewQ, new { Name = uName }).FirstOrDefault();
             }
         }
     }

@@ -13,6 +13,7 @@ namespace PlaceFinder.Models
             hours = new List<PlaceHours>();
             types = new List<PlaceTypes>();
             photos = new List<PlacePhotos>();
+            reviews = new List<Review>();
         }
 
         public int _id { get; set; }
@@ -24,6 +25,7 @@ namespace PlaceFinder.Models
         public ICollection<PlaceHours> hours { get; set; }
         public ICollection<PlaceTypes> types { get; set; }
         public ICollection<PlacePhotos> photos { get; set; }
+        public ICollection<Review> reviews { get; set; }
 
         public DateTime created_at { get; set; }
         public DateTime updated_at { get; set; }

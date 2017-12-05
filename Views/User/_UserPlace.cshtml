@@ -26,11 +26,14 @@
         <div class="col-md-7 reviews-col">
             <div>Reviews</div>
             <ul class="reviews">
-                <li class="review">
-                    <span class="r-name">Matt</span>
-                    <span class="r-date">( 10-13-27 )</span>
-                    <div class="r-content">This place was very good Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum doloribus similique iste culpa maiores labore id, neque ab iusto repudiandae?</div>
-                </li>
+                @foreach (var review in @Model.reviews)
+                {
+                    <li class="review">
+                        <span class="r-name">Matt</span>
+                        <span class="r-date">@review.created_at</span>
+                        <div class="r-content">@review.text</div>
+                    </li>
+                }
             </ul>
             <hr>
             <form class="form-inline add-review-form" data-placeid="@Model._id">

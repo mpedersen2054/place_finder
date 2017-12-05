@@ -38,6 +38,9 @@ function addReviewSubmit(e) {
         { PlaceId: placeId, Review: review }
     ).then(data => {
         console.log('submitted!', data)
+        if (data.success) {
+            $('.reviews').append()
+        }
     }).fail((xhr, status, message) => {
         console.log('there was an error!', xhr, status, message)
     })

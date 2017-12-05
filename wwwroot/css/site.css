@@ -166,6 +166,12 @@ hr {
     font-size: 0.9rem;
 }
 
+.r-date {
+    font-size: 0.7rem;
+    background-color: #ccc;
+    color: #fff;
+}
+
 .r-content {
     font-size: 0.7rem;
 }

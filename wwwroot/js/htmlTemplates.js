@@ -77,5 +77,9 @@ const TMPL = {
             </div>
         </div>
         `
+    },
+
+    reviewTemplate(review) {
+        
     }
 }
