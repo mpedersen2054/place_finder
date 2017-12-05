@@ -24,26 +24,21 @@
             </ul>
         </div>
         <div class="col-md-7 reviews-col">
-            <a class="btn btn-link collapse-btn" data-toggle="collapse" href="#reviewsCollapse" aria-expanded="false" aria-controls="reviewsCollapse">
-                Reviews <i class="fa fa-chevron-down" aria-hidden="true"></i>
-            </a>
-
-            <div class="collapse" id="reviewsCollapse">
-                <ul class="reviews">
-                    <li class="review">
-                        <span class="r-name">Matt</span>
-                        <span class="r-date">( 10-13-27 )</span>
-                        <div class="r-content">This place was very good Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum doloribus similique iste culpa maiores labore id, neque ab iusto repudiandae?</div>
-                    </li>
-                </ul>
-                <hr>
-                <form class="form-inline add-review-form">
-                    <div class="form-group mx-sm-3">
-                        <input type="text" class="form-control review-inp" placeholder="Add review...">
-                    </div>
-                    <button type="submit" class="btn btn-primary">Add</button>
-                </form>
-            </div>
+            <div>Reviews</div>
+            <ul class="reviews">
+                <li class="review">
+                    <span class="r-name">Matt</span>
+                    <span class="r-date">( 10-13-27 )</span>
+                    <div class="r-content">This place was very good Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum doloribus similique iste culpa maiores labore id, neque ab iusto repudiandae?</div>
+                </li>
+            </ul>
+            <hr>
+            <form class="form-inline add-review-form" data-placeid="@Model._id">
+                <div class="form-group mx-sm-3">
+                    <input type="text" class="form-control review-inp" placeholder="Add review...">
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
         </div>
     </div>
 
