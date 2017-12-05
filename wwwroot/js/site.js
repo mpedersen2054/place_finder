@@ -30,7 +30,8 @@ function addReviewSubmit(e) {
     e.preventDefault()
     let $this = $(this),
         placeId = $this.data('placeid'),
-        review = $this.find('.review-inp').val().trim()
+        $reviewInp = $this.find('.review-inp'),
+        review = $reviewInp.val().trim()
 
     console.log('submitting review', placeId, review)
     $.post(
@@ -38,9 +39,9 @@ function addReviewSubmit(e) {
         { PlaceId: placeId, Review: review }
     ).then(data => {
         console.log('submitted!', data)
-        if (data.success) {
-            $('.reviews').append()
-        }
+        $reviewInp.val('')
+        let review = TMPL.reviewTemplate(data)
+        $this.siblings('.reviews').append(review)
     }).fail((xhr, status, message) => {
         console.log('there was an error!', xhr, status, message)
     })

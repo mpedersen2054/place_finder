@@ -117,7 +117,7 @@ namespace PlaceFinder.Factory
             }
         }
 
-        public void AddReview(int UserId, int PlaceId, string Review)
+        public Review AddReview(int UserId, int PlaceId, string Review)
         {
             using (IDbConnection dbConnection = Connection)
             {
@@ -125,15 +125,16 @@ namespace PlaceFinder.Factory
                     INSERT INTO reviews (text, users__id, places__id, created_at, updated_at)
                     VALUES (@Text, @UserId, @PlaceId, NOW(), NOW())
                 ";
+                // query for review and joins user.name onto review
                 string ReviewQ = @"
                     SELECT r.*, u.name
                     FROM reviews r JOIN users u
                     ON r.users__id = u._id
-                    WHERE r.text = @Text
+                    WHERE r.text = @Text AND r.users__id = @UserId AND r.places__id = @PlaceId
                 ";
                 dbConnection.Open();
                 dbConnection.Execute(InsertQ, new { Text = Review, UserId = UserId, PlaceId = PlaceId });
-                // return dbConnection.Query<User>(ReviewQ, new { Name = uName }).FirstOrDefault();
+                return dbConnection.Query<Review>(ReviewQ, new { Text = Review, UserId = UserId, PlaceId = PlaceId }).FirstOrDefault();
             }
         }
     }

@@ -14,5 +14,7 @@ namespace PlaceFinder.Models
 
         public int users__id { get; set; }
         public int places__id { get; set; }
+
+        public string name { get; set; }
     }
 }

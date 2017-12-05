@@ -4,7 +4,7 @@
 <div class="place">
 
     <div class="row">
-        <div class="col-md-5 place-col">
+        <div class="col-md-6 place-col">
             <b class="pi-name">@Model.name</b>
             <div class="pi-address">@Model.formatted_address</div>
             <div class="pi-phone">@Model.formatted_phone_number</div>
@@ -23,13 +23,13 @@
                 }
             </ul>
         </div>
-        <div class="col-md-7 reviews-col">
+        <div class="col-md-6 reviews-col">
             <div>Reviews</div>
             <ul class="reviews">
                 @foreach (var review in @Model.reviews)
                 {
                     <li class="review">
-                        <span class="r-name">Matt</span>
+                        <span class="r-name">@review.name</span>
                         <span class="r-date">@review.created_at</span>
                         <div class="r-content">@review.text</div>
                     </li>

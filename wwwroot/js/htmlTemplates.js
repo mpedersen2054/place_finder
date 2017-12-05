@@ -79,7 +79,13 @@ const TMPL = {
         `
     },
 
-    reviewTemplate(review) {
-        
+    reviewTemplate: function(review) {
+        return `
+        <li class="review">
+            <span class="r-name">${review.name}</span>
+            <span class="r-date">${review.created_at}</span>
+            <div class="r-content">${review.text}</div>
+        </li>
+        `
     }
 }
