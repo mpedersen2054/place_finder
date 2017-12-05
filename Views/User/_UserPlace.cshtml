@@ -24,14 +24,25 @@
             </ul>
         </div>
         <div class="col-md-7 reviews-col">
-            <a class="btn btn-link" data-toggle="collapse" href="#reviewsCollapse" aria-expanded="false" aria-controls="reviewsCollapse">
+            <a class="btn btn-link collapse-btn" data-toggle="collapse" href="#reviewsCollapse" aria-expanded="false" aria-controls="reviewsCollapse">
                 Reviews <i class="fa fa-chevron-down" aria-hidden="true"></i>
             </a>
 
             <div class="collapse" id="reviewsCollapse">
-                <div class="card card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
-                </div>
+                <ul class="reviews">
+                    <li class="review">
+                        <span class="r-name">Matt</span>
+                        <span class="r-date">( 10-13-27 )</span>
+                        <div class="r-content">This place was very good Lorem ipsum dolor sit amet, consectetur adipisicing elit. Cum doloribus similique iste culpa maiores labore id, neque ab iusto repudiandae?</div>
+                    </li>
+                </ul>
+                <hr>
+                <form class="form-inline add-review-form">
+                    <div class="form-group mx-sm-3">
+                        <input type="text" class="form-control review-inp" placeholder="Add review...">
+                    </div>
+                    <button type="submit" class="btn btn-primary">Add</button>
+                </form>
             </div>
         </div>
     </div>

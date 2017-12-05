@@ -145,8 +145,31 @@ hr {
 
 .place {
     font-size: 0.9rem;
-    /* border: 1px solid #ccc;
-    border-radius: 3px; */
     margin: 2rem 0;
     padding: 0.5rem 1rem;
+}
+
+.reviews-col .collapse-btn {
+    margin: 0;
+    padding: 0;
+}
+
+.reviews {
+    padding: 0.5rem;
+}
+
+.review {
+    margin-bottom: 0.5rem;
+}
+
+.r-name {
+    font-size: 0.9rem;
+}
+
+.r-content {
+    font-size: 0.7rem;
+}
+
+.add-review-form {
+    margin-left: -1rem;
 }
