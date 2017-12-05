@@ -21,6 +21,11 @@ ul {
     padding-left: 0;
 }
 
+hr {
+    margin-top: 0.5rem;
+    margin-bottom: 0.5rem;
+}
+
 /* 
 === BOOTSTRAP OVERRIDES ===
 */
@@ -78,11 +83,6 @@ ul {
     margin-top: 15rem;
 }
 
-.info-col hr {
-    margin-top: 0.5rem;
-    margin-bottom: 0.5rem;
-}
-
 #mapid {
     height: 36rem;
 }
@@ -137,3 +137,16 @@ ul {
 /* 
 === SINGLE USER PAGE ===
 */
+
+.place-col,
+.reviews-col {
+    /* padding: 0.5rem; */
+}
+
+.place {
+    font-size: 0.9rem;
+    /* border: 1px solid #ccc;
+    border-radius: 3px; */
+    margin: 2rem 0;
+    padding: 0.5rem 1rem;
+}

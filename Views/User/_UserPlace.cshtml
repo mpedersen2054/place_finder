@@ -3,25 +3,39 @@
 
 <div class="place">
 
-    <div>@Model.name</div>
+    <div class="row">
+        <div class="col-md-5 place-col">
+            <b class="pi-name">@Model.name</b>
+            <div class="pi-address">@Model.formatted_address</div>
+            <div class="pi-phone">@Model.formatted_phone_number</div>
+            <hr>
+            <div class="pi-types">
+                @foreach (var type in @Model.types)
+                {
+                    <span class="pi-type badge badge-primary">@type.text</span>
+                }
+            </div>
+            <hr>
+            <ul class="pi-hours">
+                @foreach (var hour in @Model.hours)
+                {
+                    <li class="hour">@hour.text</li>
+                }
+            </ul>
+        </div>
+        <div class="col-md-7 reviews-col">
+            <a class="btn btn-link" data-toggle="collapse" href="#reviewsCollapse" aria-expanded="false" aria-controls="reviewsCollapse">
+                Reviews <i class="fa fa-chevron-down" aria-hidden="true"></i>
+            </a>
 
-    <div>@Model.formatted_phone_number</div>
-
-    @foreach (var type in @Model.types)
-    {
-        <div>@type.text</div>
-    }
-
-    @foreach (var hour in @Model.hours)
-    {
-        <div>@hour.text</div>
-    }
-
-    @foreach (var photo in @Model.photos)
-    {
-        <div>@photo.reference</div>
-    }
-
-    <br><br>
+            <div class="collapse" id="reviewsCollapse">
+                <div class="card card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
+                </div>
+            </div>
+        </div>
+    </div>
 
 </div>
+
+<hr>
