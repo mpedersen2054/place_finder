@@ -2,14 +2,26 @@
 @model PlaceFinder.Models.Place
 
 <div class="place">
+
     <div>@Model.name</div>
 
     <div>@Model.formatted_phone_number</div>
 
-    <div>@Model.types</div>
+    @foreach (var type in @Model.types)
+    {
+        <div>@type.text</div>
+    }
 
-    <div>@Model.hours</div>
+    @foreach (var hour in @Model.hours)
+    {
+        <div>@hour.text</div>
+    }
 
-    <div>@Model.photos</div>
+    @foreach (var photo in @Model.photos)
+    {
+        <div>@photo.reference</div>
+    }
+
+    <br><br>
 
 </div>

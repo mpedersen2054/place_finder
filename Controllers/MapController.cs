@@ -24,7 +24,7 @@ namespace PlaceFinder.Controllers
             int? UserId = HttpContext.Session.GetInt32("Id");
             if (UserId == null)
             {
-                return RedirectToAction("Index", "User");
+                return RedirectToAction("Home", "User");
             }
             ViewBag.userId = UserId;
             return View("Index");

@@ -23,24 +23,42 @@ namespace PlaceFinder.Factory
             }
         }
 
-        // find by ID
         public User FindById(int userId)
         {
             using (IDbConnection dbConnection = Connection)
             {
-                dbConnection.Open();
-                // find user & all places
-                string Query = @"
+                // get User based on userId
+                string UserQ = @"
                     SELECT * FROM users WHERE _id = @UserId;
+                ";
+                // get Places based on userId
+                string PlaceQ = $@"
                     SELECT * FROM places WHERE users__id = @UserId;
                 ";
+                // get PlaceTypes, PlaceHours, & PlacePhotos based on Place._id
+                string PlaceChildrenQ = @"
+                    SELECT * FROM types WHERE places__id = @PlaceId;
+                    SELECT * FROM hours WHERE places__id = @PlaceId;
+                    SELECT * FROM photos WHERE places__id = @PlaceId;
+                ";
 
-                using (var multi = dbConnection.QueryMultiple(Query, new { UserId = userId }))
-                {
-                    var _User = multi.Read<User>().Single();
-                    _User.places = multi.Read<Place>().ToList();
-                    return _User;
-                }
+                dbConnection.Open();
+
+                var _User = dbConnection.Query<User>(UserQ, new { UserId = userId }).FirstOrDefault();
+                var _Places = dbConnection.Query<Place>(PlaceQ, new { UserId = userId }).ToList();
+
+                // iterate over each place and query for types, hours, & photos
+                _Places.ForEach(p => {
+                    using (var multi = dbConnection.QueryMultiple(PlaceChildrenQ, new { PlaceId = p._id }))
+                    {
+                        p.types = multi.Read<PlaceTypes>().ToList();
+                        p.hours = multi.Read<PlaceHours>().ToList();
+                        p.photos = multi.Read<PlacePhotos>().ToList();
+                    }
+                });
+
+                _User.places = _Places;
+                return _User;
             }
         }
 

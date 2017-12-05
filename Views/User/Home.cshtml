@@ -1,0 +1,21 @@
+@model PlaceFinder.Models.LoginViewModel
+
+<div class="home-page">
+    <div class="login-container">
+        <h1>Place Finder</h1>
+        <div class="login-form-container">
+            <b>Login:</b>
+            <form asp-controller="User" asp-action="SubmitLogin" method="post">
+                <div class="form-group">
+                    
+                    <input asp-for="name" class="form-control" placeholder="John Doe...">
+                </div>
+                <div class="form-group">
+                    <button type="submit" class="btn btn-primary btn-block">Login</button>
+                </div>
+                <span asp-validation-for="name" class="auth-err"></span>
+            </form>
+        </div>
+
+    </div>
+</div>

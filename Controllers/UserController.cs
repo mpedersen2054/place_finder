@@ -21,9 +21,9 @@ namespace PlaceFinder.Controllers
 
         [HttpGet]
         [Route("")]
-        public IActionResult Index()
+        public IActionResult Home()
         {
-            return View("Index");
+            return View("Home");
         }
 
         [HttpPost]
@@ -33,26 +33,51 @@ namespace PlaceFinder.Controllers
             // validate data
             if (ModelState.IsValid)
             {
-                User Person = _userFactory.FindOrCreate(user.name);
-                HttpContext.Session.SetInt32("Id", Person._id);
-                HttpContext.Session.SetString("Name", Person.name);
+                User _User = _userFactory.FindOrCreate(user.name);
+                HttpContext.Session.SetInt32("Id", _User._id);
+                HttpContext.Session.SetString("Name", _User.name);
                 return RedirectToAction("Index", "Map");
             }
             
             // validation failed
-            return View("Index", user);
+            return View("Home", user);
+        }
+
+        [HttpGet]
+        [Route("logout")]
+        public IActionResult Logout()
+        {   
+            HttpContext.Session.Clear();
+            return RedirectToAction("Home");
+        }
+
+        [HttpGet]
+        [Route("users")]
+        public IActionResult UserList()
+        {
+            int? UserId = HttpContext.Session.GetInt32("Id");
+            if (UserId == null)
+            {
+                return RedirectToAction("Home");
+            }
+            ViewBag.userId = UserId;
+            
+            return View("Index");
         }
 
         [HttpGet]
         [Route("users/{userId}")]
         public IActionResult ShowUser(int userId)
         {
+            int? UserId = HttpContext.Session.GetInt32("Id");
+            if (UserId == null)
+            {
+                return RedirectToAction("Home");
+            }
             User _User = _userFactory.FindById(userId);
-            System.Console.WriteLine(_User);
-            System.Console.WriteLine(_User.name);
-            System.Console.WriteLine(_User.places);
-            System.Console.WriteLine(_User.places.Count);
             ViewBag.user = _User;
+            ViewBag.userId = UserId;
+            
             return View("Show");
         }
     }
