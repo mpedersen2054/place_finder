@@ -68,6 +68,25 @@ namespace PlaceFinder.Factory
             }
         }
 
+        public List<string> GetUsersPlaceIds(int userId)
+        {
+            using (IDbConnection dbConnection = Connection)
+            {
+                string PlaceIdQ = @"
+                    SELECT place_id FROM places WHERE users__id = @UserId
+                ";
+                List<string> PlaceIds = new List<string>();
+
+                dbConnection.Open();
+                var _Places = dbConnection.Query<Place>(PlaceIdQ, new { UserId = userId }).ToList();
+                foreach (var place in _Places)
+                {
+                    PlaceIds.Add(place.place_id);
+                }
+                return PlaceIds;
+            }
+        }
+
         // if the user exists return the User
         // if user doesnt exist, create new User and return new User
         public User FindOrCreate(string uName)

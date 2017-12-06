@@ -88,9 +88,12 @@ const Map = (function(coords, lookupObj, places) {
 
         // request the specific places details using the place_id
         $.get(`/place/${placeId}`)
-            .then((data) => {
-                // console.log('place details!', data)
-                let template = TMPL.placeDetails(data)
+            .then(data => {
+                
+                const placeExists = data.userPlaceIds.some(p => p == data.place.place_id)
+                console.log('PLACE EXISTS?', placeExists)
+
+                let template = TMPL.placeDetails(data.place, placeExists)
                 $infoCol.html(template)
             })
             .fail((xhr, status, err) => {
@@ -104,8 +107,9 @@ const Map = (function(coords, lookupObj, places) {
             placeId = $this.data('placeid')
         console.log('adding place!!!', placeId)
         $.post(`/place/${placeId}/add`, { PlaceId: placeId })
-            .done((data) => {
+            .done(data => {
                 console.log('added place!', data)
+                $('.ic-r-5 .btn-col').html(`<button class="btn btn-primary" disabled>Already added</button>`)
             })
             .fail((xhr, status, err) => {
                 console.log('there was an err adding new place!', err)

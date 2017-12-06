@@ -14,25 +14,30 @@ namespace PlaceFinder.Controllers
     {
         private GoogleApiWrapper _googleApiWrapper;
         private PlaceFactory _placeFactory;
+        private UserFactory _userFactory;
         public PlaceController(IOptions<GoogleApiOptions> opts, IOptions<MySqlOptions> sqlOpts)
         {
             _googleApiWrapper = new GoogleApiWrapper(opts);
             _placeFactory = new PlaceFactory(sqlOpts);
+            _userFactory = new UserFactory(sqlOpts);
         }
 
         [HttpGet]
         [Route("place/{PlaceId}")]
         public JsonResult GetPlaceDetials(string PlaceId)
         {
+            int? UserId = HttpContext.Session.GetInt32("Id");
             PlaceResults _Place = new PlaceResults();
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 _Place = Results;
             }).Wait();
 
             System.Console.WriteLine(_Place);
-            // get users added places. Check if the place is already in user.places
+            // get list of users' places' place_ids to send to frontend
+            // to not allow user to add it again if place already added
+            var placeIds = _userFactory.GetUsersPlaceIds((int)UserId);
 
-            return Json(_Place);
+            return Json(new { Place = _Place, UserPlaceIds = placeIds });
         }
 
         [HttpPost]

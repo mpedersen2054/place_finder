@@ -10,7 +10,7 @@ const TMPL = {
         `
     },
 
-    placeDetails: function(place) {
+    placeDetails: function(place, placeExists) {
         console.log(place)
         // handle adding multiple types
         let types = ''
@@ -36,6 +36,15 @@ const TMPL = {
             // place is open 24/7
             hours += `<div>No hours specified...</div>`
             isOpen = ''
+        }
+
+        // show 'Add Place' btn if place isnt already added
+        // otherwise show a disabled button
+        let btn = ''
+        if (placeExists) {
+            btn += `<button data-placeid=${place.place_id} class="btn btn-primary" disabled>Already added</button>`
+        } else {
+            btn += `<button data-placeid=${place.place_id} class="btn btn-primary add-place-btn">Add Place</button>`
         }
         
         return `
@@ -75,8 +84,8 @@ const TMPL = {
         </div>
         <hr>
         <div class="row ic-r-5">
-            <div class="col-md-12">
-                <button data-placeid=${place.place_id} class="btn btn-primary add-place-btn">Add Place</button>
+            <div class="col-md-12 btn-col">
+                ${btn}
             </div>
         </div>
         `
