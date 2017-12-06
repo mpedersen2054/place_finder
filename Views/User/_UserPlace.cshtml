@@ -7,7 +7,8 @@
         <div class="col-md-6 place-col">
             <b class="pi-name">@Model.name</b>
             <div class="pi-address">@Model.formatted_address</div>
-            <div class="pi-phone">@Model.formatted_phone_number</div>
+            <div class="pi-phone">Phone : @Model.formatted_phone_number</div>
+            <div class="pi-rating">Rating : @Model.rating</div>
             <hr>
             <div class="pi-types">
                 @foreach (var type in @Model.types)

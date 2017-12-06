@@ -51,6 +51,9 @@ const TMPL = {
             <div class="col-md-12 ic-phone">
                 <div>Phone : ${place.formatted_phone_number}</div>
             </div>
+            <div class="col-md-12 ic-rating">
+            <div>Rating : ${place.rating}</div>
+        </div>
         </div>
         <hr>
         <div class="row ic-r-3">

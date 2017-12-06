@@ -11,6 +11,7 @@ namespace PlaceFinder.Models
         public string name { get; set; }
         public string formatted_address { get; set; }
         public string formatted_phone_number { get; set; }
+        public float rating { get; set; }
         public PlaceResultsOpeningHours opening_hours { get; set; }
         public string[] types { get; set; }
         public PlaceResultsPhotos[] photos { get; set; }

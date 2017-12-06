@@ -22,6 +22,7 @@ namespace PlaceFinder.Models
         public string formatted_address { get; set; }
         public string formatted_phone_number { get; set; }
         public bool is_open { get; set; }
+        public float rating { get; set; }
         public ICollection<PlaceHours> hours { get; set; }
         public ICollection<PlaceTypes> types { get; set; }
         public ICollection<PlacePhotos> photos { get; set; }

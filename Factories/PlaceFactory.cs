@@ -47,8 +47,8 @@ namespace PlaceFinder.Factory
                     // insert new place if it doesnt exist for given user
                     int isOpen = place.opening_hours.is_open ? 1 : 0;
                     string InsertPlaceQ = @"
-                        INSERT INTO places (place_id, formatted_address, formatted_phone_number, name, is_open, users__id, created_at, updated_at)
-                        VALUES (@PlaceId, @FAddr, @FPhoneNumber, @Name, @IsOpen, @UsersId, NOW(), NOW())
+                        INSERT INTO places (place_id, formatted_address, formatted_phone_number, name, is_open, rating, users__id, created_at, updated_at)
+                        VALUES (@PlaceId, @FAddr, @FPhoneNumber, @Name, @IsOpen, @Rating, @UsersId, NOW(), NOW())
                     ";
                     dbConnection.Execute(InsertPlaceQ, new {
                         PlaceId = place.place_id,
@@ -56,6 +56,7 @@ namespace PlaceFinder.Factory
                         FPhoneNumber = place.formatted_phone_number,
                         Name = place.name,
                         IsOpen = isOpen,
+                        Rating = place.rating,
                         UsersId = userId
                     });
 
