@@ -9,9 +9,21 @@ function lookupFormSubmit(e) {
     let $placeVal = $('.lf-place').val(),
         $serviceVal = $('.lf-service').val(),
         $keywordVal = $('.lf-keyword').val(),
-        lookupObj = { Place: $placeVal, Service: $serviceVal, Keyword: $keywordVal }
+        $inputErrors = $('.input-errors'),
+        lookupObj = { Place: $placeVal, Service: $serviceVal, Keyword: $keywordVal },
+        error = false
 
-    // do some validations here...
+    // check for validity...
+    if ($placeVal.length < 3 || !/^[a-zA-Z]+$/.test($placeVal)) error = true;
+    if ($serviceVal.length < 3 || !/^[a-zA-Z]+$/.test($serviceVal)) error = true;
+    if ($keywordVal.length < 3 || !/^[a-zA-Z]+$/.test($keywordVal)) error = true;
+
+    if (error) {
+        $inputErrors.html('* All inputs must be atleast 3 characters and only letters.')
+        return 0
+    } else {
+        $inputErrors.html('')
+    }
 
     $.post(
         '/map/lookup',
@@ -33,7 +45,6 @@ function addReviewSubmit(e) {
         $reviewInp = $this.find('.review-inp'),
         review = $reviewInp.val().trim()
 
-    console.log('submitting review', placeId, review)
     $.post(
         '/users/add_review',
         { PlaceId: placeId, Review: review }

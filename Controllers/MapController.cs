@@ -35,6 +35,9 @@ namespace PlaceFinder.Controllers
         [Route("map/lookup")]
         public JsonResult Lookup(LookupViewModel LUVMInfo)
         {
+            if (!ModelState.IsValid) {
+                return Json(new { success = false, message = "Invalid input." });
+            }
             // check is valid here...
             Dictionary<string,object> PlacesJson = new Dictionary<string,object>();
             Dictionary<string,string> Lookup = new Dictionary<string,string>();

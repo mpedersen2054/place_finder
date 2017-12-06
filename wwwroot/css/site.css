@@ -63,6 +63,12 @@ hr {
     border-bottom: 1px solid #ccc;
 }
 
+.input-errors {
+    position: relative;
+    top: 2rem;
+    color: red;
+}
+
 .sc-label {
     margin: 0.5rem;
 }
