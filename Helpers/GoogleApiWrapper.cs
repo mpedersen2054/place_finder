@@ -18,7 +18,6 @@ namespace PlaceFinder.Helpers
         public GoogleApiWrapper(IOptions<GoogleApiOptions> config)
         {
             GoogleApisConfig = config;
-            System.Console.WriteLine(GoogleApisConfig);
         }
         // get the keys from appsettings.json
         private string PlacesKey {

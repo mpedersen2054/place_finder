@@ -39,9 +39,9 @@ namespace PlaceFinder.Factory
                 string InsertPhotosQ;
                 // check if the place already exists
                 var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
-                if (Exists != null && Exists._id != userId)
+                if (Exists != null && Exists.users__id == userId)
                 {
-                    System.Console.WriteLine("DO SOMETHING IF IT EXISTS");
+                    System.Console.WriteLine("This place is already added for this user.");
                     System.Console.WriteLine(Exists.place_id);
                 }
                 else
