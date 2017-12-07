@@ -36,6 +36,11 @@ namespace PlaceFinder.Models
 
     public class PlaceHours : BaseEntity
     {
+        public PlaceHours()
+        {
+            text = "No hours provided.";
+            order_pos = 0;
+        }
         public int _id { get; set; }
         public string text { get; set; }
         public int order_pos { get; set; }

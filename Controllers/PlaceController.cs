@@ -44,7 +44,6 @@ namespace PlaceFinder.Controllers
         [Route("place/{PlaceId}/add")]
         public JsonResult AddPlace(string PlaceId)
         {
-            System.Console.WriteLine($"Adding place {PlaceId}");
             int? UserId = HttpContext.Session.GetInt32("Id");
             PlaceResults _Place = new PlaceResults();
 
@@ -52,9 +51,17 @@ namespace PlaceFinder.Controllers
                 _Place = Results;
             }).Wait();
 
-            _placeFactory.CreatePlace(Convert.ToInt32(UserId), _Place);
+            // check if place has null values
+            if (_Place.formatted_address == null || _Place.formatted_address.Length < 1)
+            {
+                _Place.formatted_address = "No address provided.";
+            }
+            if (_Place.formatted_phone_number == null || _Place.formatted_phone_number.Length < 1)
+            {
+                _Place.formatted_phone_number = "No phone number provided.";
+            }
 
-            // get users added places. Check if the place is already in user.places
+            _placeFactory.CreatePlace(Convert.ToInt32(UserId), _Place);
 
             return Json(new {});
         }

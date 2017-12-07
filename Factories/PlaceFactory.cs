@@ -35,8 +35,8 @@ namespace PlaceFinder.Factory
                     SELECT * FROM places
                     WHERE place_id = @PlaceId
                 ";
-                var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
 
+                var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
                 if (Exists != null && Exists._id != userId)
                 {
                     System.Console.WriteLine("DO SOMETHING IF IT EXISTS");
@@ -45,7 +45,16 @@ namespace PlaceFinder.Factory
                 else
                 {
                     // insert new place if it doesnt exist for given user
-                    int isOpen = place.opening_hours.is_open ? 1 : 0;
+                    // check if place has .opening_hours, not all places do
+                    int isOpen;
+                    if (place.opening_hours != null)
+                    {
+                        isOpen = place.opening_hours.is_open ? 1 : 0;
+                    }
+                    else
+                    {
+                        isOpen = 0;
+                    }
                     string InsertPlaceQ = @"
                         INSERT INTO places (place_id, formatted_address, formatted_phone_number, name, is_open, rating, users__id, created_at, updated_at)
                         VALUES (@PlaceId, @FAddr, @FPhoneNumber, @Name, @IsOpen, @Rating, @UsersId, NOW(), NOW())
@@ -81,9 +90,18 @@ namespace PlaceFinder.Factory
                         VALUES (@OrderPos, @Text, @PlacesId, NOW(), NOW())
                     ";
                     List<object> Hours = new List<object>();
-                    for (int i = 0; i < place.opening_hours.weekday_text.Length; i++)
+                    // need to handle case where the place doesnt have opening_hours
+                    if (place.opening_hours == null)
                     {
-                        Hours.Add(new { OrderPos = i, Text = place.opening_hours.weekday_text[i], PlacesId = _Place._id });
+                        Hours.Add(new { OrderPos = 0, Text = "No hours specified", PlacesId = _Place._id });
+                    }
+                    else
+                    {
+                        // case where there IS opening_hours
+                        for (int i = 0; i < place.opening_hours.weekday_text.Length; i++)
+                        {
+                            Hours.Add(new { OrderPos = i, Text = place.opening_hours.weekday_text[i], PlacesId = _Place._id });
+                        }
                     }
                     dbConnection.Execute(InsertHoursQ, Hours);
 
@@ -93,11 +111,15 @@ namespace PlaceFinder.Factory
                         VALUES (@Reference, @PlacesId, NOW(), NOW())
                     ";
                     List<object> Photos = new List<object>();
-                    foreach (var photo in place.photos)
+                    if (place.photos != null)
                     {
-                        Photos.Add(new { Reference = photo.photo_reference, PlacesId = _Place._id });
+                        // only add photos if place.photos exists
+                        foreach (var photo in place.photos)
+                        {
+                            Photos.Add(new { Reference = photo.photo_reference, PlacesId = _Place._id });
+                        }
+                        dbConnection.Execute(InsertPhotosQ, Photos);
                     }
-                    dbConnection.Execute(InsertPhotosQ, Photos);
                 }
             }
         }
