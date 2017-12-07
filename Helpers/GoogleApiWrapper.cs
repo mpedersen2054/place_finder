@@ -62,7 +62,11 @@ namespace PlaceFinder.Helpers
             PlacesUrl += $"location={LatLng[0]},{LatLng[1]}";
             PlacesUrl += $"&radius=350";
             PlacesUrl += $"&type={Lookup["Service"]}";
-            PlacesUrl += $"&keyword={Lookup["Keyword"]}";
+            // only add &keyword=... if it isnt null or blank
+            if (Lookup["Keyword"] != null && Lookup["Keyword"].Length > 0)
+            {
+                PlacesUrl += $"&keyword={Lookup["Keyword"]}";
+            }
             PlacesUrl += $"&key={PlacesKey}";
 
             using (var Client = new HttpClient())

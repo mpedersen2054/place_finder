@@ -29,13 +29,15 @@ namespace PlaceFinder.Factory
             using (IDbConnection dbConnection = Connection)
             {
                 dbConnection.Open();
-
-                // check if the place already exists
-                var ExistsQ = @"
+                string ExistsQ = @"
                     SELECT * FROM places
                     WHERE place_id = @PlaceId
                 ";
-
+                string InsertPlaceQ;
+                string InsertTypesQ;
+                string InsertHoursQ;
+                string InsertPhotosQ;
+                // check if the place already exists
                 var Exists = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
                 if (Exists != null && Exists._id != userId)
                 {
@@ -44,7 +46,7 @@ namespace PlaceFinder.Factory
                 }
                 else
                 {
-                    // insert new place if it doesnt exist for given user
+                    // INSERT NEW PLACE
                     // check if place has .opening_hours, not all places do
                     int isOpen;
                     if (place.opening_hours != null)
@@ -55,7 +57,8 @@ namespace PlaceFinder.Factory
                     {
                         isOpen = 0;
                     }
-                    string InsertPlaceQ = @"
+
+                    InsertPlaceQ = @"
                         INSERT INTO places (place_id, formatted_address, formatted_phone_number, name, is_open, rating, users__id, created_at, updated_at)
                         VALUES (@PlaceId, @FAddr, @FPhoneNumber, @Name, @IsOpen, @Rating, @UsersId, NOW(), NOW())
                     ";
@@ -72,8 +75,8 @@ namespace PlaceFinder.Factory
                     // get the newly added place to insert into users__id in following insert statements
                     var _Place = dbConnection.Query<Place>(ExistsQ, new { PlaceId = place.place_id }).FirstOrDefault();
 
-                    // add types
-                    string InsertTypesQ = @"
+                    // INSERT TYPES FOR PLACE.TYPES
+                    InsertTypesQ = @"
                         INSERT INTO types (text, places__id, created_at, updated_at)
                         VALUES (@Text, @PlacesId, NOW(), NOW())
                     ";
@@ -84,8 +87,8 @@ namespace PlaceFinder.Factory
                     }
                     dbConnection.Execute(InsertTypesQ, Types);
                     
-                    // add open_hours
-                    string InsertHoursQ = @"
+                    // INSERT HOURS FOR PLACE.HOURS
+                    InsertHoursQ = @"
                         INSERT INTO hours (order_pos, text, places__id, created_at, updated_at)
                         VALUES (@OrderPos, @Text, @PlacesId, NOW(), NOW())
                     ";
@@ -105,8 +108,8 @@ namespace PlaceFinder.Factory
                     }
                     dbConnection.Execute(InsertHoursQ, Hours);
 
-                    // add photos
-                    string InsertPhotosQ = @"
+                    // INSERT PHOTOS FOR PLACE.PHOTOS
+                    InsertPhotosQ = @"
                         INSERT INTO photos (reference, places__id, created_at, updated_at)
                         VALUES (@Reference, @PlacesId, NOW(), NOW())
                     ";

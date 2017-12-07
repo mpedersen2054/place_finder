@@ -30,15 +30,14 @@ namespace PlaceFinder.Controllers
         [Route("login")]
         public IActionResult SubmitLogin(LoginViewModel user)
         {
-            // validate data
+            // validation success
             if (ModelState.IsValid)
             {
                 User _User = _userFactory.FindOrCreate(user.name);
                 HttpContext.Session.SetInt32("Id", _User._id);
                 HttpContext.Session.SetString("Name", _User.name);
                 return RedirectToAction("Index", "Map");
-            }
-            
+            }    
             // validation failed
             return View("Home", user);
         }
@@ -60,9 +59,7 @@ namespace PlaceFinder.Controllers
             {
                 return RedirectToAction("Home");
             }
-
             var _Users = _userFactory.GetAllUsers();
-
             ViewBag.userId = UserId;
             ViewBag.users = _Users;
             
@@ -91,6 +88,7 @@ namespace PlaceFinder.Controllers
         {
             int? UserId = HttpContext.Session.GetInt32("Id");
             var _Review = _userFactory.AddReview((int)UserId, PlaceId, Review);
+
             return Json(_Review);
         }
     }

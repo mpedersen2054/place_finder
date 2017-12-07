@@ -29,8 +29,7 @@ function lookupFormSubmit(e) {
         '/map/lookup',
         lookupObj
     ).then(data => {
-        // console.log('data from /map/lookup!!', data)
-        console.log(data.results)
+        // instantiate Map obj
         var map = new Map(data.Coords, lookupObj, data.results)
         map.init()
     }).fail((xhr, status, message) => {
@@ -49,7 +48,6 @@ function addReviewSubmit(e) {
         '/users/add_review',
         { PlaceId: placeId, Review: review }
     ).then(data => {
-        console.log('submitted!', data)
         $reviewInp.val('')
         let review = TMPL.reviewTemplate(data)
         $this.siblings('.reviews').append(review)

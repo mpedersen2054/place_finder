@@ -48,7 +48,6 @@ namespace PlaceFinder.Factory
                 ";
 
                 dbConnection.Open();
-
                 var _User = dbConnection.Query<User>(UserQ, new { UserId = userId }).FirstOrDefault();
                 var _Places = dbConnection.Query<Place>(PlaceQ, new { UserId = userId }).ToList();
 
@@ -94,8 +93,7 @@ namespace PlaceFinder.Factory
             using (IDbConnection dbConnection = Connection)
             {
                 string UserQ = @"
-                    SELECT * FROM users
-                    WHERE name = @Name
+                    SELECT * FROM users WHERE name = @Name
                 ";
                 dbConnection.Open();
                 var user = dbConnection.Query<User>(UserQ, new { Name = uName }).FirstOrDefault();

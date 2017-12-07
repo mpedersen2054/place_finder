@@ -31,8 +31,6 @@ namespace PlaceFinder.Controllers
             _googleApiWrapper.GetPlaceDetails(PlaceId, Results => {
                 _Place = Results;
             }).Wait();
-
-            System.Console.WriteLine(_Place);
             // get list of users' places' place_ids to send to frontend
             // to not allow user to add it again if place already added
             var placeIds = _userFactory.GetUsersPlaceIds((int)UserId);

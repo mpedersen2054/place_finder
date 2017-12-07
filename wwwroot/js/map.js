@@ -12,8 +12,6 @@ const Map = (function(coords, lookupObj, places) {
     this.$infoCol = $('.info-col')
 
     this.init = function() {
-        console.log('initing!')
-        console.log(coords, lookupObj, places)
         // resets the view for each new map init'ed
         this.$mapContainer.html('<div id="mapid"></div>')
         this.activeMap = L.map('mapid').setView([this.lat, this.lng], this.zoom)
@@ -29,7 +27,6 @@ const Map = (function(coords, lookupObj, places) {
     }
 
     this.attachHandlers = function() {
-        console.log('attaching handlers')
         let self = this
         this.activeMap.on('moveend', function() {
             self.requestMorePlace(this.getCenter())
@@ -63,7 +60,6 @@ const Map = (function(coords, lookupObj, places) {
     }
 
     this.renderPlaces = function(placesArr) {
-        console.log(`rendering ${placesArr.length} places!`)
         let self = this
         $.each(placesArr, (i, place) => {
             let lat = place.geometry.location.lat,
@@ -81,7 +77,6 @@ const Map = (function(coords, lookupObj, places) {
             $infoCol = $('.info-col'),
             $popup = $this.parent('.popup'),
             placeId = $popup.data('placeid')
-            
 
         // show spinner while waiting for response
         $infoCol.html('<div class="spinner"><i class="fa fa-circle-o-notch fa-spin fa-3x fa-fw"></i></div>')
@@ -89,10 +84,8 @@ const Map = (function(coords, lookupObj, places) {
         // request the specific places details using the place_id
         $.get(`/place/${placeId}`)
             .then(data => {
-                
+                // check if the place is already added for the user
                 const placeExists = data.userPlaceIds.some(p => p == data.place.place_id)
-                console.log('PLACE EXISTS?', placeExists)
-
                 let template = TMPL.placeDetails(data.place, placeExists)
                 $infoCol.html(template)
             })
@@ -105,10 +98,10 @@ const Map = (function(coords, lookupObj, places) {
         e.preventDefault()
         let $this = $(this),
             placeId = $this.data('placeid')
-        console.log('adding place!!!', placeId)
+
         $.post(`/place/${placeId}/add`, { PlaceId: placeId })
             .done(data => {
-                console.log('added place!', data)
+                // place the 'Add place' btn with 'Already added' btn
                 $('.ic-r-5 .btn-col').html(`<button class="btn btn-primary" disabled>Already added</button>`)
             })
             .fail((xhr, status, err) => {
