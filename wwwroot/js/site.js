@@ -62,7 +62,8 @@ function addReviewSubmit(e) {
     ).then(data => {
         $reviewInp.val('')
         let review = TMPL.reviewTemplate(data)
-        $this.siblings('.reviews').append(review)
+        $this.parents('.reviews-col').next().find('.reviews').append(review)
+        $this.closest('.reviews').append(review)
     }).fail((xhr, status, message) => {
         console.log('there was an error!', xhr, status, message)
     })

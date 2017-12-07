@@ -37,7 +37,7 @@ namespace PlaceFinder.Factory
                 var PlaceExists = dbConnection.Query<Place>(ExistsQ, new { PlaceAddr = place.formatted_address }).FirstOrDefault();
                 if (PlaceExists != null)
                 {
-                    // -> if it does, check if the user already has a relationship with the place
+                    // if it does, check if the user already has a relationship with the place
                     string RelQ = @"
                         SELECT * FROM users_places
                         WHERE users__id = @UserId AND places__id = @PlaceId
@@ -46,12 +46,12 @@ namespace PlaceFinder.Factory
       
                     if (RelExists != null)
                     {
-                        // -> if user has relationship, return
+                        // if user has relationship, return
                         System.Console.WriteLine($"Relationship already added for user: {userId} & place: {PlaceExists._id}");
                     }
                     else
                     {
-                        // -> if user DOES NOT, add new users_places entry
+                        // if user DOES NOT, add new users_places entry
                         string NewRelQ = @"
                             INSERT INTO users_places (users__id, places__id)
                             VALUES (@UserId, @PlaceId)

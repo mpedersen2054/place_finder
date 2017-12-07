@@ -5,27 +5,41 @@
 
     <div class="row">
         <div class="col-md-6 place-col">
-            <b class="pi-name">@Model.name</b>
+            <h4 class="pi-name">@Model.name</h4>
             <div class="pi-address">@Model.formatted_address</div>
             <div class="pi-phone">Phone : @Model.formatted_phone_number</div>
             <div class="pi-rating">Rating : @Model.rating</div>
-            <hr>
             <div class="pi-types">
                 @foreach (var type in @Model.types)
                 {
                     <span class="pi-type badge badge-primary">@type.text</span>
                 }
             </div>
-            <hr>
+        </div>
+
+        <div class="col-md-6">
             <ul class="pi-hours">
+                <b>Hours</b>
                 @foreach (var hour in @Model.hours)
                 {
                     <li class="hour">@hour.text</li>
                 }
             </ul>
         </div>
+
+    </div>
+
+    <div class="row reviews-row">
         <div class="col-md-6 reviews-col">
-            <div>Reviews</div>
+            <form class="form-inline add-review-form" data-placeid="@Model._id">
+                <div class="form-group mx-sm-3">
+                    <input type="text" class="form-control review-inp" placeholder="Add review...">
+                </div>
+                <button type="submit" class="btn btn-primary">Add</button>
+            </form>
+        </div>
+        <div class="col-md-6 reviews-col">
+            <b>Reviews</b>
             <ul class="reviews">
                 @foreach (var review in @Model.reviews)
                 {
@@ -36,14 +50,8 @@
                     </li>
                 }
             </ul>
-            <hr>
-            <form class="form-inline add-review-form" data-placeid="@Model._id">
-                <div class="form-group mx-sm-3">
-                    <input type="text" class="form-control review-inp" placeholder="Add review...">
-                </div>
-                <button type="submit" class="btn btn-primary">Add</button>
-            </form>
         </div>
+        
     </div>
 
 </div>
