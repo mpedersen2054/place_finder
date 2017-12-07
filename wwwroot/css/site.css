@@ -30,6 +30,9 @@ hr {
 === BOOTSTRAP OVERRIDES ===
 */
 
+.nav-link {
+    margin-left: 1.5rem;
+}
 
 /* 
 === HOME PAGE ===

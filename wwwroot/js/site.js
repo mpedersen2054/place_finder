@@ -1,8 +1,20 @@
 
 $(function() {
+    handleNavLinks()
     $('#lookup-form').on('submit', lookupFormSubmit)
     $('.add-review-form').on('submit', addReviewSubmit)
 })
+
+function handleNavLinks() {
+    let path = window.location.pathname.split('/'),
+        userId = $('.ni-places').data('userid'),
+        addActive
+    // add active class to .nav-link if matches current page
+    if (path[1] == 'map') addActive = '.ni-map';
+    if (path[1] == 'users') addActive = '.ni-users';
+    if (path[1] == 'users' && path[2] && Number(path[2]) == userId) addActive = '.ni-places';
+    $(addActive).addClass('active')
+}
 
 function lookupFormSubmit(e) {
     e.preventDefault()

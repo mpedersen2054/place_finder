@@ -19,23 +19,15 @@ const TMPL = {
         }
         // handle adding the array of hours
         let hours = ''
-        let isOpen
         // check weather place has opening_hours, if its 24/7 it wont
-        if (place.opening_hours ) {
+        if (place.opening_hours) {
             // put all hours into single string
             for (var hour of place.opening_hours.weekday_text) {
                 hours += `<li class="ic-day">${hour}</li>`
             }
-            // handle weather place is open / not open
-            if (place.opening_hours.open_now) {
-                isOpen = `<div class="ic-open-status open">Is currently open.</div>`
-            } else {
-                isOpen = `<div class="ic-open-status closed">Is currently closed.</div>`
-            }
         } else {
             // place is open 24/7
             hours += `<div>No hours specified...</div>`
-            isOpen = ''
         }
 
         // show 'Add Place' btn if place isnt already added
@@ -79,7 +71,6 @@ const TMPL = {
                 <ul class="ic-hours">
                     ${hours}
                 </ul>
-                ${isOpen}
             </div>
         </div>
         <hr>
