@@ -1,10 +1,12 @@
 
 const TMPL = {
     markerPopup: function(place) {
+        let rating = (place.rating) ? place.rating : 0
         return `
         <div class="popup" data-placeid="${place.place_id}">
             <b class="p-title">${place.name}</b>
-            <div class="p-desc">desc goes here</div>
+            <div class="p-address">${place.vicinity}</div>
+            <div class="p-rating">Rating: ${rating}/5</div>
             <a href="#" class="p-viewmore">More...</a>
         </div>
         `

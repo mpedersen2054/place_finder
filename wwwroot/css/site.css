@@ -116,6 +116,21 @@ hr {
     color: red;
 }
 
+.p-title {
+    font-size: 1.2rem;
+}
+
+.p-rating {
+    margin-bottom: 0.65rem;
+}
+
+.p-viewmore {
+    font-size: 1rem;
+    padding: 0.5rem;
+    background-color: #ddd;
+    border-radius: 4px;
+}
+
 
 /* 
 === USERS LIST PAGE ===
@@ -155,7 +170,7 @@ hr {
 }
 
 .pi-name {
-    font-size: 1.2rem;
+    font-size: 2rem;
     font-weight: 600;
 }
 
