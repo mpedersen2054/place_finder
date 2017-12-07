@@ -31,9 +31,11 @@ namespace PlaceFinder.Factory
                 string UserQ = @"
                     SELECT * FROM users WHERE _id = @UserId;
                 ";
-                // get Places based on userId
+                // get Places based on join table Users_Places for given user
                 string PlaceQ = $@"
-                    SELECT * FROM places WHERE users__id = @UserId;
+                    SELECT p.* FROM users_places up
+                    INNER JOIN places p ON p._id = up.places__id
+                    WHERE up.users__id = @UserId;
                 ";
                 // get PlaceTypes, PlaceHours, & PlacePhotos based on Place._id
                 string PlaceChildrenQ = @"

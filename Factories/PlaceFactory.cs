@@ -85,12 +85,12 @@ namespace PlaceFinder.Factory
                     dbConnection.Execute(AddRelQ, new { UserId = userId, PlaceId = NewPlace._id });
 
                     // add NewPlace.types / newPlace.hours / NewPlace.photos onto NewPlace
-                    addAllPlaceChildData(NewPlace, place);
+                    AddAllPlaceChildData(NewPlace, place);
                 }
             }
         }
 
-        public void addAllPlaceChildData(Place NewPlace, PlaceResults PlaceData)
+        public void AddAllPlaceChildData(Place NewPlace, PlaceResults PlaceData)
         {
             // INSERT TYPES FOR PLACE.TYPES
             using (IDbConnection dbConnection = Connection)
