@@ -85,8 +85,8 @@ const Map = (function(coords, lookupObj, places) {
         $.get(`/place/${placeId}`)
             .then(data => {
                 // check if the place is already added for the user
-                const placeExists = false
-                // const placeExists = data.userPlaceIds.some(p => p == data.place.place_id)
+                // const placeExists = false
+                const placeExists = data.userPlaceIds.some(p => p == data.place.place_id)
                 let template = TMPL.placeDetails(data.place, placeExists)
                 $infoCol.html(template)
             })

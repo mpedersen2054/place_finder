@@ -78,13 +78,6 @@ namespace PlaceFinder.Controllers
             User _User = _userFactory.FindById(userId);
             ViewBag.user = _User;
             ViewBag.userId = UserId;
-
-            foreach (var place in _User.places)
-            {
-                System.Console.WriteLine($"TYPES: {place.types.Count}");
-                System.Console.WriteLine($"HOURS: {place.hours.Count}");
-                System.Console.WriteLine($"PHOTOS: {place.photos.Count}");
-            }
             
             return View("Show");
         }

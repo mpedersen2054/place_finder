@@ -74,7 +74,9 @@ namespace PlaceFinder.Factory
             using (IDbConnection dbConnection = Connection)
             {
                 string PlaceIdQ = @"
-                    SELECT place_id FROM places WHERE users__id = @UserId
+                    SELECT p.place_id FROM users_places up
+                    INNER JOIN places p ON p._id = up.places__id
+                    WHERE users__id = @UserId
                 ";
                 List<string> PlaceIds = new List<string>();
 
