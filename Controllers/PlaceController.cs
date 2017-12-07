@@ -33,9 +33,10 @@ namespace PlaceFinder.Controllers
             }).Wait();
             // get list of users' places' place_ids to send to frontend
             // to not allow user to add it again if place already added
-            var placeIds = _userFactory.GetUsersPlaceIds((int)UserId);
+            // var placeIds = _userFactory.GetUsersPlaceIds((int)UserId);
 
-            return Json(new { Place = _Place, UserPlaceIds = placeIds });
+            return Json(new { Place = _Place });
+            // return Json(new { Place = _Place, UserPlaceIds = placeIds });
         }
 
         [HttpPost]
