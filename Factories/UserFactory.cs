@@ -120,11 +120,13 @@ namespace PlaceFinder.Factory
             using (IDbConnection dbConnection = Connection)
             {
                 string UsersQ = @"
-                    SELECT _id, name FROM users
+                    SELECT _id, name FROM users;
                 ";
+                // get Places based on join table Users_Places for given user
                 string PlacesCountQ = @"
-                    SELECT _id FROM places
-                    WHERE users__id = @UserId
+                    SELECT p._id FROM users_places up
+                    INNER JOIN places p ON p._id = up.users__id
+                    WHERE users__id = @UserId;
                 ";
 
                 var _Users = dbConnection.Query<User>(UsersQ).ToList();
