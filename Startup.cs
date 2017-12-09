@@ -4,7 +4,6 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
-// using PlaceFinder.Helpers;
 
 namespace PlaceFinder
 {
@@ -32,9 +31,13 @@ namespace PlaceFinder
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
-        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory)
+        public void Configure(IApplicationBuilder app, ILoggerFactory loggerFactory, IHostingEnvironment env)
         {
-            loggerFactory.AddConsole();
+            if (env.IsDevelopment())
+            {
+                loggerFactory.AddConsole();
+                app.UseDeveloperExceptionPage();
+            }
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
             app.UseSession();
