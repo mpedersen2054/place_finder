@@ -40,9 +40,10 @@ hr {
 */
 
 .login-container {
+    position: relative;
+    top: 12rem;
     width: 20rem;
     margin: 0 auto;
-    margin-top: 10rem;
 }
 
 .login-form-container {
@@ -187,9 +188,6 @@ hr {
     margin-top: 2rem;
 }
 
-.reviews {
-}
-
 .review {
     margin-bottom: 0.5rem;
 }
@@ -208,4 +206,11 @@ hr {
 
 .add-review-form {
     margin-left: -1rem;
+}
+
+.error-container {
+    position: relative;
+    top: 12rem;
+    width: 20rem;
+    margin: 0 auto;
 }

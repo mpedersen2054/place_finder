@@ -4,6 +4,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Logging;
 using Microsoft.Extensions.Configuration;
 using Microsoft.AspNetCore.Hosting;
+using PlaceFinder.Controllers;
 
 namespace PlaceFinder
 {
@@ -36,7 +37,13 @@ namespace PlaceFinder
             if (env.IsDevelopment())
             {
                 loggerFactory.AddConsole();
+                app.UseDatabaseErrorPage();
                 app.UseDeveloperExceptionPage();
+                app.UseBrowserLink();
+            }
+            else
+            {
+                app.UseExceptionHandler("/Error/Default");
             }
             app.UseDeveloperExceptionPage();
             app.UseStaticFiles();
