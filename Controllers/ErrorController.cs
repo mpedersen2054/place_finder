@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 
-namespace PlaceFinder.Controllers
+namespace PlaceFinder
 {
     public class ErrorController : Controller
     {
